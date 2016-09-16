@@ -1,0 +1,109 @@
+<html>
+
+<head>
+    <title> - Wetterfrosch search - </title>
+    <meta name="viewport" content="width=device-width">
+
+    <link href="/static/css/flatui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/flatui/dist/css/flat-ui.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+</head>
+<body>
+
+<div>
+    <p align="center">The Wetterfrosch search!<img class="logo" src="/static/siroop.png" width="100px" align="right"/>
+    </p>
+</div>
+<hr>
+
+<div class="myApp">
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="tile">
+                <div id="geo">
+                <div id="out"></div>
+                <br>
+                <table align="center" cellpadding="2" cellspacing="2" width="40%">
+                    <tr>
+                        <th colspan="2"> Geo Data:</th>
+                    </tr>
+                    <tr>
+                        <td> Lattitude:</td>
+                        <td> {{ items.lat }} </td>
+                    </tr>
+                    <tr>
+                        <td> Longitude:</td>
+                        <td> {{ items.lon }} </td>
+                    </tr>
+                    <tr>
+                        <td> Address:</td>
+                        <td> {{ items.geolocation }} </td>
+                    </tr>
+                </table>
+                </div>
+                <!--<a href="#" class="btn btn-block btn-lg btn-primary">Get New Data</a>-->
+
+            </div>
+
+        </div>
+        <div class="col-sm-9">
+
+            <div class="tile">
+                <h3 class="tile-title">Weather Table Big</h3>
+                <div id="weather-tables">
+
+                    <table align="center" cellpadding="2" cellspacing="2" float="left">
+                        <tr>
+                            <th colspan="2"> Weather Information:</th>
+                        </tr>
+                        <tr>
+                            <td> Local Temperature:</td>
+                            <td> {{ items[0].temperature }} °</td>
+                        </tr>
+                        <tr>
+                            <td> Rain Prob.:</td>
+                            <td> {{ items[0].rrp }} %</td>
+                        <tr>
+                        <tr>
+                            <td> Wind Speed:</td>
+                            <td> {{ items[0].wind }} km/h</td>
+                        <tr>
+                        <tr>
+                            <td> Sunshine Duration:</td>
+                            <td> {{ items[0].sun }} min/h</td>
+                        <tr>
+                    </table>
+
+                    <hr>
+
+                    <table class="center" cellpadding="2" cellspacing="2">
+                        <tr>
+                            <th>time:</th>
+                            <th>temperature:</th>
+                            <th>rain probability:</th>
+                        </tr>
+                        <tbody>
+                        <tr v-for="item in items">
+                            <td> {{ item.datetime }} </td>
+                            <td> {{ item.temperature }} °</td>
+                            <td> {{ item.rrp }} %</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="/static/js/vue.js"></script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/geoFindMe.js"></script>
+<script type="text/javascript" src="/static/js/weather_data.js"></script>
+
+</body>
+
+</html>

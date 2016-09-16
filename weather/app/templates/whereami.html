@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Style Tile</title>
+    <meta name="description" content="A correctly-coded HTML5 template for your Style Tile(s).">
+    <meta name="author" content="Your name">
+
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="/static/css/main.css">
+    <!-- If you want to use the style switcher, add your CSS files below, with titles. See the Readme.md for more details.
+    <link rel="stylesheet" type="text/css" href="css/one.css" title="one">
+    <link rel="stylesheet" type="text/css" href="css/two.css" title="two">
+    <link rel="stylesheet" type="text/css" href="css/three.css" title="three">-->
+</head>
+<body>
+
+<h1> Weather search </h1>
+<div id="out"></div>
+<script src="/static/js/geoFindMe.js"></script>
+<div class="app"></div>
+<script src="/static/js/jquery-3.1.0.min.js"></script>
+
+<button id="btnTest">Test Query</button>
+<script src="/static/js/button.js"></script>
+
+<p class="center" >The Wetterfrosch search!<img class="logo" src="/static/siroop.png" /></p>
+    <hr class="spacer">
+<div class="container3">
+    <table>
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th colspan="3"> You really need this stuff tomorrow: </th>
+                <tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for image in products_info %}
+                        <td><a target="_blank" href="https://siroop.ch{{ image.url }}"><img src="{{ image.image }}" width="100px"></a></td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="wrapper">
+    <div class="container1">
+        <table class="center" cellpadding="2" cellspacing="2">
+            <tr>
+                <th colspan="2"> Weather information: </th>
+            </tr>
+            <tr>
+                <td> local temperature:</td>
+                <td> {{ RRP[0].temperature }} ° </td>
+            </tr>
+            <tr>
+                <td> rain probability:</td>
+                <td> {{ RRP[0].rrp }} % </td>
+            <tr>
+            <tr>
+                <td> wind speed:</td>
+                <td> {{ RRP[0].wind }} km/h</td>
+            <tr>
+            <tr>
+                <td> sunshine:</td>
+                <td> {{ RRP[0].sun }} min of 60 min</td>
+            <tr>
+            <tr>
+                <td> your location is:</td>
+                <td> {{ geolocation }} </td>
+            </tr>
+            <tr>
+                <td> This stuff could be helpful today:</td>
+                <td> {{ day_theme }}  </td>
+            </tr>
+            <tr>
+                <td> Here you can find it:</td>
+                <td><a target="_blank" href="{{ day_link }}"><img src="{{ day_pic }}" width="100px"></a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="container2">
+        <table class="center" cellpadding="2" cellspacing="2">
+            <tr>
+                <th>time:</th>
+                <th>temperature:</th>
+                <th>rain probability:</th>
+                <!--<th>rain/sun:</th>-->
+                <th>theme:</th>
+            </tr>
+                {% for item in RRP %}
+                    <tr>
+                        <td> {{ item.datetime }} </td>
+                        <td> {{ item.temperature }} °</td>
+                        <td> {{ item.rrp }} % </td>
+                        <td><a target="_blank" href="{{ item.link }}"><img src="{{ day_pic }}" width="80px"></a></td>
+                        <!--<td><a target="_blank" href="http://www-explorer.pthor.ch/?q={{ item.terms }}">{{ item.terms }}</a>
+                        </td>
+                        {% for image in item.products %}
+                            <td><img src="{{ image.image }}" width="100px"></td>
+                        {% endfor %}-->
+                        <td> {{ item.theme_world }}  </td>
+                    </tr>
+                {% endfor %}
+        </table>
+    </div>
+</div>
+</body>
+
+</html>
+</body>
+</html>

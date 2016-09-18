@@ -6,7 +6,6 @@
 
     <link href="/static/css/flatui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/flatui/dist/css/flat-ui.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/main.css">
 
 </head>
 <body>
@@ -25,7 +24,7 @@
                 <div id="geo">
                 <div id="out"></div>
                 <br>
-                <table align="center" cellpadding="2" cellspacing="2" width="40%">
+                <table align="auto" cellpadding="2" cellspacing="2" width="40%">
                     <tr>
                         <th colspan="2"> Geo Data:</th>
                     </tr>
@@ -43,18 +42,10 @@
                     </tr>
                 </table>
                 </div>
+                <br>
                 <!--<a href="#" class="btn btn-block btn-lg btn-primary">Get New Data</a>-->
-
-            </div>
-
-        </div>
-        <div class="col-sm-9">
-
-            <div class="tile">
-                <h3 class="tile-title">Weather Table Big</h3>
-                <div id="weather-tables">
-
-                    <table align="center" cellpadding="2" cellspacing="2" float="left">
+                <div id="weather-table">
+                    <table align="auto" cellpadding="2" cellspacing="2" float="left">
                         <tr>
                             <th colspan="2"> Weather Information:</th>
                         </tr>
@@ -75,25 +66,11 @@
                             <td> {{ items[0].sun }} min/h</td>
                         <tr>
                     </table>
-
-                    <hr>
-
-                    <table class="center" cellpadding="2" cellspacing="2">
-                        <tr>
-                            <th>time:</th>
-                            <th>temperature:</th>
-                            <th>rain probability:</th>
-                        </tr>
-                        <tbody>
-                        <tr v-for="item in items">
-                            <td> {{ item.datetime }} </td>
-                            <td> {{ item.temperature }} °</td>
-                            <td> {{ item.rrp }} %</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
             </div>
+
+        </div>
+        <div class="col-sm-9">
         </div>
     </div>
 

@@ -34,10 +34,28 @@ function getWeather(lat, lon) {
     .done(function (weather_json) {
         console.log("Data Weather: ", weather_json);
         new Vue({
-            el: '#weather-tables',
+            el: '#weather-table',
             data: {
                 loading: false,
                 items: weather_json
+            }
+        });
+        predictWeather(weather_json)
+    });
+}
+
+function predictWeather(weather_json) {
+    $.ajax({
+        method: "GET",
+        url: "//localhost:5000/weatherPrediction/" + weather_json + "/"
+    })
+    .done(function (temperature) {
+        console.log("Data Prediction: ", temperature);
+        new Vue({
+            el: '#prediction',
+            data: {
+                loading: false,
+                items: temperature
             }
         });
     });

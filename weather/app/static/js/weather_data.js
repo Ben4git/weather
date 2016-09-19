@@ -1,7 +1,8 @@
 var getLocationData = geoFindMe(function (latitude, longitude) {
     //console.log("this is the callback", latitude, longitude);
     getGeoData(latitude, longitude);
-    getWeather(latitude, longitude)
+    getWeather(latitude, longitude);
+    predictWeather(latitude, longitude)
 });
 
 var loca = {
@@ -40,22 +41,21 @@ function getWeather(lat, lon) {
                 items: weather_json
             }
         });
-        predictWeather(weather_json)
     });
 }
 
-function predictWeather(weather_json) {
+function predictWeather(lat, lon) {
     $.ajax({
         method: "GET",
-        url: "//localhost:5000/weatherPrediction/" + weather_json + "/"
+        url: "//localhost:5000/weatherPrediction/" + lat + "/" + lon + "/"
     })
-    .done(function (temperature) {
-        console.log("Data Prediction: ", temperature);
+    .done(function (prediction) {
+        console.log("Data Prediction: ", prediction);
         new Vue({
             el: '#prediction',
             data: {
                 loading: false,
-                items: temperature
+                items: prediction
             }
         });
     });

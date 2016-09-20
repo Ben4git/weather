@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def read_data():
-    with open("/Users/Ben/Desktop/a_data.txt", "r") as f:
+    with open("/Users/Ben/workspace/weather/weather/app/training_data_set/december_data.txt", "r") as f:
 #        lines = f.readlines()
         lines=[line.strip() for line in f.readlines()]
  

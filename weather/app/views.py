@@ -2,9 +2,7 @@ import json
 import requests
 import numpy as np
 
-from collections import defaultdict
-from flask import jsonify, Flask
-from flask import render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, url_for, send_from_directory
 from app import app
 from app.weather_terms import generate_weather_terms, SUMMER_MUST_HAVE, MOVIE_TIME
 from geopy.geocoders import Nominatim
@@ -20,24 +18,25 @@ def index():
 
 
 @app.route('/geoLoca/<lat>/<lon>/', methods=['GET', 'POST'])
-def test(lat, lon):
+def html_position(lat, lon):
     lat_s = str(lat)
     lon_s = str(lon)
 
-    geolocator = Nominatim()
-    geolocation = geolocator.reverse('%s, %s' % (lat_s, lon_s))
-    location = geolocation.address
+    locator = Nominatim()
+    position = locator.reverse('%s, %s' % (lat_s, lon_s))
+    location = position.address
     location = location.split(',')
-    address = [location[0], location[1], location[5], location[6]]
-    loca = {'lat': lat_s, 'lon': lon_s, 'geolocation': address}
-    response = jsonify(loca)
+    address = [location[0], location[1], location[4], location[5], location[6]]
+    address_table = {'lat': lat_s, 'lon': lon_s, 'location': address}
+    response = jsonify(address_table)
     response.headers.add('Access-Control-Allow-Origin', '*')
+
     return response
 
 
 @app.route('/weatherReport/<lat>/<lon>/', methods=['GET', 'POST'])
 def weather_table(lat, lon):
-    weather_items = getWeatherTable(lat, lon)
+    weather_items = get_weather_table(lat, lon)
 
     weather_json = jsonify(weather_items)
     weather_json.headers.add('Access-Control-Allow-Origin', '*')
@@ -45,10 +44,10 @@ def weather_table(lat, lon):
 
 
 @app.route('/weatherPrediction/<lat>/<lon>/', methods=['GET', 'POST'])
-def Prediction(lat, lon):
-    w = getWeatherTable(lat, lon)
+def weather_prediction(lat, lon):
+    w = get_weather_table(lat, lon)
 
-    variables_result = [getWeatherItemList(item) for item in w]
+    variables_result = [get_weather_item_list(item) for item in w]
 
     temperature = [i[0] for i in variables_result]
     rain = [i[1] for i in variables_result]
@@ -56,7 +55,7 @@ def Prediction(lat, lon):
     wind = [i[3] for i in variables_result]
     humidity = [i[4] for i in variables_result]
     pressure = [i[5] for i in variables_result]
-    datetime = [i[6] for i in variables_result]
+    #datetime = [i[6] for i in variables_result]
 
     # day = []
     # time = []
@@ -67,19 +66,12 @@ def Prediction(lat, lon):
     #
     # print time
 
-    temp_n = []
-    rain_n = []
-    sun_n = []
-    wind_n = []
-    humidity_n = []
-    pressure_n = []
-
-    temp_n = temperatureNormalization(temperature)
-    rain_n = rainNormalization(rain)
-    sun_n = sunNormalization(sun)
-    wind_n = windNormalization(wind)
-    humidity_n = humidityNormalization(humidity)
-    pressure_n = pressureNormalization(pressure)
+    temp_n = temperature_normalization(temperature)
+    rain_n = rain_normalization(rain)
+    sun_n = sun_normalization(sun)
+    wind_n = wind_normalization(wind)
+    humidity_n = humidity_normalization(humidity)
+    pressure_n = pressure_normalization(pressure)
 
     a = np.matrix([[0.6, 0.1, 0.3, 0.1, 0.2, 0.4], [0.3, 0.6, 0.1, 0.1, 0.4, 0.1]])
     theme_world_list = []
@@ -89,31 +81,20 @@ def Prediction(lat, lon):
         theme_world = np.dot(a, weather_array)
         theme_world_list.insert(i, theme_world)
 
-    mean = np.mean(theme_world_list, axis=0)
+    weather = get_prediction(theme_world_list)
 
-    if mean.item(0) < mean.item(1):
-        day_theme = 'Movie Time'
-        day_link = 'https://siroop.ch/inspiration/movie-time'
-        day_pic = '/static/rain.jpg'
-        weatherPredict = MOVIE_TIME
-    else:
-        day_theme = 'Summer Must-Haves'
-        day_link = 'https://siroop.ch/inspiration/sommer-must-haves'
-        day_pic = '/static/summer.jpg'
-        weatherPredict = SUMMER_MUST_HAVE
-
-    products_info = productsInfo(weatherPredict)
+    products_info = products_generation(weather)
     print products_info
-    prediction = {'daytheme': day_theme, 'daylink': day_link, 'daypic': day_pic, 'weather': weatherPredict}
-    sum = products_info.insert(prediction.copy())
-    #sum.update(products_info)
+    # prediction = {'daytheme': day_theme, 'daylink': day_link, 'daypic': day_pic, 'weather': weatherPredict}
+    # sum = products_info.insert
+    # sum.update(products_info)
 
-    sum = jsonify(sum)
-    sum.headers.add('Access-Control-Allow-Origin', '*')
-    return sum
+    products_table = jsonify(products_info)
+    products_table.headers.add('Access-Control-Allow-Origin', '*')
+    return products_table
 
 
-def getWeatherTable(lat, lon):
+def get_weather_table(lat, lon):
     lat_s = str(lat)
     lon_s = str(lon)
 
@@ -137,7 +118,7 @@ def getWeatherTable(lat, lon):
     return items
 
 
-def getWeatherItemList(x):
+def get_weather_item_list(x):
     t = x['temperature']
     p = x['rrp']
     s = x['sun']
@@ -149,7 +130,7 @@ def getWeatherItemList(x):
     return t, p, s, u, h, ap, d
 
 
-def temperatureNormalization(temperature):
+def temperature_normalization(temperature):
     temp_n = []
     for i in range(len(temperature)):
         t_norm = ((temperature[i] + 40.0) / 80.0)  # highest measured temperature in switzerland goes from -40 to +40
@@ -158,7 +139,7 @@ def temperatureNormalization(temperature):
     return temp_n
 
 
-def rainNormalization(rain):
+def rain_normalization(rain):
     rain_n = []
     for i in range(len(rain)):
         r_norm = ((rain[i]) / 100.0)  # rain probability goes from 0 to 100%
@@ -167,7 +148,7 @@ def rainNormalization(rain):
     return rain_n
 
 
-def sunNormalization(sun):
+def sun_normalization(sun):
     sun_n = []
     for i in range(len(sun)):
         s_norm = (sun[i] / 60.0)  # sun duration goes from 0 min to 60 min per hour
@@ -176,7 +157,7 @@ def sunNormalization(sun):
     return sun_n
 
 
-def windNormalization(wind):
+def wind_normalization(wind):
     wind_n = []
     for i in range(len(wind)):
         w_norm = (wind[i] / 118.0)  # velocity goes from 0 - 118 km/h, at 118 km/h it is classified as an "Orkan"
@@ -185,7 +166,7 @@ def windNormalization(wind):
     return wind_n
 
 
-def humidityNormalization(humidity):
+def humidity_normalization(humidity):
     humidity_n = []
     for i in range(len(humidity)):
         h_norm = (humidity[i] / 100.0)
@@ -194,7 +175,7 @@ def humidityNormalization(humidity):
     return humidity_n
 
 
-def pressureNormalization(pressure):
+def pressure_normalization(pressure):
     pressure_n = []
     for i in range(len(pressure)):
         ap_norm = ((pressure[i] - 970) / 70)
@@ -203,8 +184,24 @@ def pressureNormalization(pressure):
     return pressure_n
 
 
-def productsInfo(weatherPredict):
-    weather_terms = generate_weather_terms(weatherPredict)
+def get_prediction(x):
+    mean = np.mean(x, axis=0)
+
+    if mean.item(0) < mean.item(1):
+        #day_theme = 'MOVIE_TIME'
+        #day_link = 'https://siroop.ch/inspiration/movie-time'
+        #day_pic = '/static/rain.jpg'
+        weatherPredict = MOVIE_TIME
+    else:
+        #day_theme = 'SUMMER_MUST_HAVES'
+        #day_link = 'https://siroop.ch/inspiration/sommer-must-haves'
+        #day_pic = '/static/summer.jpg'
+        weatherPredict = SUMMER_MUST_HAVE
+
+    return weatherPredict
+
+
+def products_generation(x):
     def extract_product_info(hit):
         try:
             image = hit['_source']['images']['lowres'][0]
@@ -215,8 +212,10 @@ def productsInfo(weatherPredict):
                 'image': image,
                 'url': hit['_source']['de_CH']['url']}
 
-    products = search_products(weather_terms)
-    products_info = map(extract_product_info, products)
+    weather_terms = generate_weather_terms(x)
+
+    products_table = search_products(weather_terms)
+    products_info = map(extract_product_info, products_table)
 
     return products_info
 

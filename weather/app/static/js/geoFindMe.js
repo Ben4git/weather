@@ -8,7 +8,6 @@ function geoFindMe(cb) {
     }
 
 
-
     function success(position) {
         // fire the call back!
         cb(position.coords.latitude, position.coords.longitude);
@@ -20,7 +19,7 @@ function geoFindMe(cb) {
     function showMap(lat, lon) {
         var img = new Image();
         //output.innerHTML = '<p>Latitude is ' + lat + '° <br>Longitude is ' + lon + '°</p>';
-        img.src = "http://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=230x230&sensor=false";
+        img.src = "http://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lon + "&zoom=13&size=800x270&sensor=false";
         output.appendChild(img);
     }
 

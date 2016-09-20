@@ -49,13 +49,13 @@ function predictWeather(lat, lon) {
         method: "GET",
         url: "//localhost:5000/weatherPrediction/" + lat + "/" + lon + "/"
     })
-    .done(function (prediction) {
-        console.log("Data Prediction: ", prediction);
+    .done(function (products) {
+        console.log("Data Prediction: ", products);
         new Vue({
             el: '#prediction',
             data: {
                 loading: false,
-                items: prediction
+                items: products
             }
         });
     });

@@ -6,6 +6,7 @@
 
     <link href="/static/css/flatui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/flatui/dist/css/flat-ui.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
 
 </head>
 <body>
@@ -22,25 +23,25 @@
         <div class="col-sm-3">
             <div class="tile">
                 <div id="geo">
-                <div id="out"></div>
-                <br>
-                <table align="auto" cellpadding="2" cellspacing="2" width="40%">
-                    <tr>
-                        <th colspan="2"> Geo Data:</th>
-                    </tr>
-                    <tr>
-                        <td> Lattitude:</td>
-                        <td> {{ items.lat }} </td>
-                    </tr>
-                    <tr>
-                        <td> Longitude:</td>
-                        <td> {{ items.lon }} </td>
-                    </tr>
-                    <tr>
-                        <td> Address:</td>
-                        <td> {{ items.geolocation }} </td>
-                    </tr>
-                </table>
+                    <div id="out"></div>
+                    <br>
+                    <table align="auto" cellpadding="2" cellspacing="2" width="40%">
+                        <tr>
+                            <th colspan="2"> Geo Data:</th>
+                        </tr>
+                        <tr>
+                            <td> Lattitude:</td>
+                            <td> {{ items.lat }} </td>
+                        </tr>
+                        <tr>
+                            <td> Longitude:</td>
+                            <td> {{ items.lon }} </td>
+                        </tr>
+                        <tr>
+                            <td> Address:</td>
+                            <td> {{ items.geolocation }} </td>
+                        </tr>
+                    </table>
                 </div>
                 <br>
                 <!--<a href="#" class="btn btn-block btn-lg btn-primary">Get New Data</a>-->
@@ -70,11 +71,19 @@
                             <td> {{ items[0].pressure }} min/h</td>
                         <tr>
                     </table>
-                    </div>
+                </div>
             </div>
 
         </div>
         <div class="col-sm-9">
+
+            <div class="row weather-list" id="prediction">
+
+                <div class="col-sm-3 weather-list__col" v-for="item in items">
+                    <a class="weather-list__link" target="_blank" href="http://www.siroop.ch/{{ item.url }}"><img src="{{ item.image }}" alt=""
+                                                                                       class="src"></a>
+                </div>
+            </div>
         </div>
     </div>
 

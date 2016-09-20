@@ -1,0 +1,31 @@
+/* Weather List */
+
+* {
+ box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.weather-list {
+
+}
+
+.weather-list__col {
+    border-right: solid 1px gray;
+    border-bottom: solid 1px gray;
+    overflow: hidden;
+    height: 200px;
+}
+
+.weather-list__link {
+    display: block;
+    text-align: center;
+    padding: 6px;
+}
+
+.weather-list__link {
+
+}

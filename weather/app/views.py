@@ -26,7 +26,7 @@ def html_position(lat, lon):
     position = locator.reverse('%s, %s' % (lat_s, lon_s))
     location = position.address
     location = location.split(',')
-    address = [location[0], location[1], location[4], location[5], location[6]]
+    address = [location[1] + " " + location[0], location[6]]
     address_table = {'lat': lat_s, 'lon': lon_s, 'location': address}
     response = jsonify(address_table)
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -48,6 +48,7 @@ def weather_prediction(lat, lon):
     w = get_weather_table(lat, lon)
 
     variables_result = [get_weather_item_list(item) for item in w]
+    print variables_result
 
     temperature = [i[0] for i in variables_result]
     rain = [i[1] for i in variables_result]
@@ -71,7 +72,7 @@ def weather_prediction(lat, lon):
     humidity_n = humidity_normalization(humidity)
     pressure_n = pressure_normalization(pressure)
 
-    weighting_vector = get_weighting(month)
+    weighting_vector, cut = get_weighting(month)
 
     a = np.array(weighting_vector)
     theme_world_list = []
@@ -81,7 +82,7 @@ def weather_prediction(lat, lon):
         theme_world = np.dot(a, weather_array)
         theme_world_list.insert(i, theme_world)
 
-    weather = get_prediction(theme_world_list, month)
+    weather = get_prediction(theme_world_list, cut)
 
     products_info = products_generation(weather)
     print products_info
@@ -184,69 +185,13 @@ def pressure_normalization(pressure):
     return pressure_n
 
 
-def get_prediction(x, month):
+def get_prediction(x, y):
     mean = np.mean(x, axis=0)
-
-    if month[0] == '01':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '02':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '03':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '04':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '05':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '06':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '07':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '08':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '09':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '10':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '11':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
-    if month[0] == '12':
-        if mean.item(0) > -0.0158:
-            weatherPredict = MOVIE_TIME
-        else:
-            weatherPredict = SUMMER_MUST_HAVE
+    print mean
+    if mean.item(0) > y:
+        weatherPredict = MOVIE_TIME
+    else:
+        weatherPredict = SUMMER_MUST_HAVE
 
     return weatherPredict
 
@@ -254,33 +199,46 @@ def get_prediction(x, month):
 def get_weighting(x):
 
     weight = []
+    cut = 0
 
     if x[0] == '01':
         weight = [-0.00909824, 0.00943982, -0.00684809, 0.00660464, 0.01447286, -0.01459643]
+        cut = 0.00298387
     if x[0] == '02':
         weight = [-0.01282424, 0.00894633, -0.00570136, -0.00373348, 0.01624247, -0.01323499]
+        cut = 0.00258065
     if x[0] == '03':
         weight = [-0.00803732, 0.00893287, -0.0066863, -0.00242146, 0.0140223, -0.01454846]
+        cut = -0.000241935
     if x[0] == '04':
         weight = [-0.00898446, 0.00829643, -0.0066594, 0.00530684, 0.01627399, -0.01421073]
+        cut = 0.00104839
     if x[0] == '05':
         weight = [-0.00995442, 0.00882052, -0.00599414, 0.00488401, 0.0164064, -0.01297599]
+        cut = 0.00104839
     if x[0] == '06':
         weight = [-0.00967134, 0.00813585, -0.00546412, -0.00564167, 0.0153748, -0.01391193]
+        cut = -0.00122984
     if x[0] == '07':
         weight = [-0.00988417, 0.00858781, -0.00583501, -0.00745723, 0.0165972, -0.01388873]
+        cut = -0.00077621
     if x[0] == '08':
         weight = [-0.00942567, 0.00923738, -0.00645289, 0.00360788, 0.01589958, -0.01411208]
+        cut = 0.000403226
     if x[0] == '09':
         weight = [-0.00912792, 0.00831796, -0.00602797, -0.00635364, 0.01566218, -0.01444709]
+        cut = 0.00016129
     if x[0] == '10':
         weight = [-0.00781921, 0.00851862, -0.00575595, 0.00289248, 0.01664236, -0.01430174]
+        cut = 0.00372379
     if x[0] == '11':
         weight = [-0.01152125, 0.00911835, -0.00631822, 0.00247476, 0.01666723, -0.01424621]
+        cut = 0.00240927
     if x[0] == '12':
         weight = [-0.00726646, 0.00869168, -0.00713663, -0.0075033, 0.01841887, -0.01386321]
+        cut = 0.00560484
 
-    return weight
+    return weight, cut
 
 
 def products_generation(x):

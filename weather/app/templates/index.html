@@ -11,82 +11,47 @@
 </head>
 <body>
 
-<div>
-    <p align="center">The Wetterfrosch search!<img class="logo" src="/static/siroop.png" width="100px" align="right"/>
-    </p>
-</div>
-<hr>
-
 <div class="myApp">
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-xs-12 col-sm-4 col-md-4">
             <div class="tile">
-                <div id="geo">
-                    <div id="out"></div>
+                <img class="logo" src="/static/Siroop_logo.png" width="100px" align="leftt"/> The Siroop Wetterfrosch!
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" font-size=30px" font-size="3.5vw">
+                    <div id="geo">
+                        <div id="out"></div>
+                        <br>
+                        <span class="glyphicon glyphicon-home"></span>{{ items.location }}
+                    </div>
                     <br>
-                    <table align="auto" cellpadding="2" cellspacing="2" width="40%">
-                        <tr>
-                            <th colspan="2"> Geo Data:</th>
-                        </tr>
-                        <tr>
-                            <td> Lattitude:</td>
-                            <td> {{ items.lat }} </td>
-                        </tr>
-                        <tr>
-                            <td> Longitude:</td>
-                            <td> {{ items.lon }} </td>
-                        </tr>
-                        <tr>
-                            <td> Address:</td>
-                            <td> {{ items.location }} </td>
-                        </tr>
-                    </table>
-                </div>
-                <br>
-                <!--<a href="#" class="btn btn-block btn-lg btn-primary">Get New Data</a>-->
-                <div id="weather-table">
-                    <table align="auto" cellpadding="2" cellspacing="2" float="left">
-                        <tr>
-                            <th colspan="2"> Weather Information:</th>
-                        </tr>
-                        <tr>
-                            <td> Local Temperature:</td>
-                            <td> {{ items[0].temperature }} °</td>
-                        </tr>
-                        <tr>
-                            <td> Rain Prob.:</td>
-                            <td> {{ items[0].rrp }} %</td>
-                        <tr>
-                        <tr>
-                            <td> Wind Speed:</td>
-                            <td> {{ items[0].wind }} km/h</td>
-                        <tr>
-                        <tr>
-                            <td> Sunshine Duration:</td>
-                            <td> {{ items[0].sun }} min/h</td>
-                        <tr>
-                        <tr>
-                            <td> Air Pressure:</td>
-                            <td> {{ items[0].pressure }} min/h</td>
-                        <tr>
-                    </table>
+                    <div id="weather-table">
+                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                                src="/static/weather_png/temperature.png" alt="" class="src"
+                                font-size="0.3em"> {{ items[0].temperature }} °
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                                src="/static/weather_png/rainy-day.png" alt="" class="src"
+                                font-size="0.3em"> {{ items[0].rrp }} %
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                                src="/static/weather_png/windy-day.png" alt="" class="src"
+                                font-size="0.3em"> {{ items[0].wind }} km/h
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                                src="/static/weather_png/sunny-day.png" alt="" class="src"
+                                font-size="0.3em"> {{ items[0].sun }} min/h
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
-        <div class="col-sm-9">
-
-            <div class="row weather-list" id="prediction">
-
-                <div class="col-sm-3 weather-list__col" v-for="item in items">
-                    <a class="weather-list__link" target="_blank" href="http://www.siroop.ch/{{ item.url }}"><img src="{{ item.image }}" alt=""
-                                                                                       class="src"></a>
-                </div>
+        <div class="col-xs-12 col-sm-8 col-md-8" id="prediction">
+            <div class="col-xs-4 col-sm-3 col-md-3 weather-list__col" v-for="item in items">
+                <a class="weather-list__link" target="_blank" href="http://www.siroop.ch/{{ item.url }}"><img
+                        src="{{ item.image }}" alt="" class="src"></a>
             </div>
         </div>
     </div>
-
 </div>
 
 <script type="text/javascript" src="/static/js/vue.js"></script>

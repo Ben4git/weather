@@ -13,7 +13,7 @@ Setup (OSX)
 
     $ pip install virtualenv
     $ source env/bin/activate
-    $ env/bin/pip install -r env/pip.txt
+    $ env/bin/pip install -r requirements.txt
 
 ## FAQ
 https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/

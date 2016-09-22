@@ -9,7 +9,7 @@
 # @author: benjamin & pawel
 from random import sample
 
-SAMPLE_SIZE = 5
+SAMPLE_SIZE = 20
 
 SUMMER_MUST_HAVE = 'SUMMER_MUST_HAVE'
 MOVIE_TIME = 'MOVIE_TIME'

@@ -8,7 +8,7 @@ from app.weather_terms import generate_weather_terms, SUMMER_MUST_HAVE, MOVIE_TI
 from geopy.geocoders import Nominatim
 
 FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A4776940F94&service=prod2data&action=iterativ_forecasts&lat={}&lon={}&start=now&end=+10%20hours&format=jsonarray'
-ELASTIC_BASE = 'http://www-explorer.pthor.ch/elastic/all_products_spryker_read/_search?q={}&size=25'
+ELASTIC_BASE = 'http://www-explorer.pthor.ch/elastic/all_products_spryker_read/_search?q={}&size=20'
 
 
 @app.route('/')

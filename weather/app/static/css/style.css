@@ -17,7 +17,7 @@ img {
     border-right: solid 1px gray;
     border-bottom: solid 1px gray;
     overflow: hidden;
-    height: 200px;
+    height: 120px;
 }
 
 .weather-list__link {

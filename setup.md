@@ -15,5 +15,13 @@ Setup (OSX)
     $ source env/bin/activate
     $ env/bin/pip install -r requirements.txt
 
+## Configure PyCharm
+
+    - Open Project Settings (CMD + ,)
+    - Search for 'Project Interpreters'
+    - Choose the Python Interpreter from your project environment
+    - Save & Close
+    - Start Python App
+
 ## FAQ
 https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/

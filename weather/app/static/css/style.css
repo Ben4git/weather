@@ -25,4 +25,14 @@ img {
     text-align: center;
     padding: 6px;
 }
+.weather-table__icon {
+    height:auto;
+    max-width:100%;
+    font-size: 30%;
+}
+.weather-table {
+    height:auto;
+    max-width:100%;
+    font-size: 70%;
+}
 

@@ -4,10 +4,10 @@ Setup (OSX)
 ## Prerequisites
 
 - Python > 2.7.x
-  - brew install python
+    - `$ brew install python`
 
 - Install Pip (Package Manager)
-  - `$ sudo easy_install pip`
+    - `$ sudo easy_install pip`
 
 ## Setup Project
 
@@ -15,5 +15,13 @@ Setup (OSX)
     $ source env/bin/activate
     $ env/bin/pip install -r requirements.txt
 
-## FAQ
+## Configure PyCharm
+
+    - Open Project Settings (CMD + ,)
+    - Search for 'Project Interpreters'
+    - Choose the Python Interpreter from your project environment
+    - Save & Close
+    - Start Python App
+
+## FAQ`& Credits
 https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/

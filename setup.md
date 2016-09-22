@@ -4,10 +4,10 @@ Setup (OSX)
 ## Prerequisites
 
 - Python > 2.7.x
-  - brew install python
+    - `$ brew install python`
 
 - Install Pip (Package Manager)
-  - `$ sudo easy_install pip`
+    - `$ sudo easy_install pip`
 
 ## Setup Project
 
@@ -23,5 +23,5 @@ Setup (OSX)
     - Save & Close
     - Start Python App
 
-## FAQ
+## FAQ`& Credits
 https://www.dabapps.com/blog/introduction-to-pip-and-virtualenv-python/

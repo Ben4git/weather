@@ -14,8 +14,8 @@
 <div class="myApp">
 
     <div class="row">
-        <div class="col-xs-12 col-sm-4 col-md-4">
-            <div class="tile">
+        <div class="col-xs-12 col-sm-4 col-md-4 tile">
+
                 <img class="logo" src="/static/Siroop_logo.png" width="100px" align="leftt"/> The Siroop Wetterfrosch!
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" font-size=30px" font-size="3.5vw">
                     <div id="geo">
@@ -25,25 +25,25 @@
                     </div>
                     <br>
                     <div id="weather-table">
-                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" font-size=30px" font-size="3.5vw"><img
                                 src="/static/weather_png/temperature.png" alt="" class="src"
                                 font-size="0.3em"> {{ items[0].temperature }} °
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" font-size=30px" font-size="3.5vw"><img
                                 src="/static/weather_png/rainy-day.png" alt="" class="src"
                                 font-size="0.3em"> {{ items[0].rrp }} %
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" font-size=30px" font-size="3.5vw"><img
                                 src="/static/weather_png/windy-day.png" alt="" class="src"
                                 font-size="0.3em"> {{ items[0].wind }} km/h
                         </div>
-                        <div class="col-xs-3 col-sm-3 col-md-6 col-lg-6" font-size=30px" font-size="3.5vw"><img
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" font-size=30px" font-size="3.5vw"><img
                                 src="/static/weather_png/sunny-day.png" alt="" class="src"
                                 font-size="0.3em"> {{ items[0].sun }} min/h
                         </div>
                     </div>
                 </div>
-            </div>
+
         </div>
         <div class="col-xs-12 col-sm-8 col-md-8" id="prediction">
             <div class="col-xs-4 col-sm-3 col-md-3 weather-list__col" v-for="item in items">

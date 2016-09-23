@@ -56,7 +56,8 @@ def weather_prediction(lat, lon):
     wind = [i[3] for i in variables_result]
     humidity = [i[4] for i in variables_result]
     pressure = [i[5] for i in variables_result]
-    datetime = [i[6] for i in variables_result]
+    clouds = [i[6] for i in variables_result]
+    datetime = [i[7] for i in variables_result]
 
     date = [i.split(' ', 1)[0] for i in datetime]
     month = [i.split('-', 1)[1] for i in date]
@@ -71,6 +72,7 @@ def weather_prediction(lat, lon):
     wind_n = wind_normalization(wind)
     humidity_n = humidity_normalization(humidity)
     pressure_n = pressure_normalization(pressure)
+    clouds_n = clouds_normalization(clouds)
 
     weighting_vector, cut = get_weighting(month)
 
@@ -112,7 +114,8 @@ def get_weather_table(lat, lon):
                 'sun': val.get('ss', 0),
                 'wind': val['ff'],
                 'humidity': val['rh'],
-                'pressure': val['qff']}
+                'pressure': val['qff'],
+                'clouds': val['n']}
 
     items = map(add_weather, rrp_table)
 
@@ -127,8 +130,9 @@ def get_weather_item_list(x):
     h = x['humidity']
     ap = x['pressure']
     d = x['datetime']
+    n = x['clouds']
 
-    return t, p, s, u, h, ap, d
+    return t, p, s, u, h, ap, n, d
 
 
 def temperature_normalization(temperature):
@@ -183,6 +187,14 @@ def pressure_normalization(pressure):
         pressure_n.insert(i, ap_norm)
 
     return pressure_n
+
+def clouds_normalization(clouds):
+    clouds_n = []
+    for i in range(len(clouds)):
+        n_norm = ((clouds[i]) / 8)
+        clouds_n.insert(i, n_norm)
+
+    return clouds_n
 
 
 def get_prediction(x, y):

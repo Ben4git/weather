@@ -50,29 +50,47 @@ def weather_prediction(lat, lon):
     variables_result = [get_weather_item_list(item) for item in w]
     print variables_result
 
-    temperature = [i[0] for i in variables_result]
-    rain = [i[1] for i in variables_result]
-    sun = [i[2] for i in variables_result]
-    wind = [i[3] for i in variables_result]
-    humidity = [i[4] for i in variables_result]
-    pressure = [i[5] for i in variables_result]
-    clouds = [i[6] for i in variables_result]
-    datetime = [i[7] for i in variables_result]
+    temp_max = [i[0] for i in variables_result]
+    temp_min = [i[1] for i in variables_result]
+    wind = [i[2] for i in variables_result]
+    wind_direction = [i[3] for i in variables_result]
+    rain_rate = [i[4] for i in variables_result]
+    symbol = [i[5] for i in variables_result]
+    humidity = [i[6] for i in variables_result]
+    thunder_prob = [i[7] for i in variables_result]
+    clouds = [i[8] for i in variables_result]
 
-    date = [i.split(' ', 1)[0] for i in datetime]
-    month = [i.split('-', 1)[1] for i in date]
-    month = [i.split('-', 1)[0] for i in month]
-    time = [i.split(' ', 1)[1] for i in datetime]
+    # temperature = [i[0] for i in variables_result]
+    # rain = [i[1] for i in variables_result]
+    # sun = [i[2] for i in variables_result]
+    # wind = [i[3] for i in variables_result]
+    # humidity = [i[4] for i in variables_result]
+    # pressure = [i[5] for i in variables_result]
+    # clouds = [i[6] for i in variables_result]
+    # datetime = [i[7] for i in variables_result]
 
-    print month, time
+    # date = [i.split(' ', 1)[0] for i in datetime]
+    # month = [i.split('-', 1)[1] for i in date]
+    # month = [i.split('-', 1)[0] for i in month]
+    # time = [i.split(' ', 1)[1] for i in datetime]
 
-    temp_n = temperature_normalization(temperature)
-    rain_n = rain_normalization(rain)
-    sun_n = sun_normalization(sun)
+    #print month, time
+
+    temp_max_n = temperature_normalization(temp_max)
+    temp_min_n = temperature_normalization(temp_min)
     wind_n = wind_normalization(wind)
+    rain_rate_n = rain_rate_normailzation(rain_rate)
     humidity_n = humidity_normalization(humidity)
-    pressure_n = pressure_normalization(pressure)
+    thunder_prob_n = thunder_prob_normalization(thunder_prob)
     clouds_n = clouds_normalization(clouds)
+
+    # temp_n = temperature_normalization(temperature)
+    # rain_n = rain_normalization(rain)
+    # sun_n = sun_normalization(sun)
+    # wind_n = wind_normalization(wind)
+    # humidity_n = humidity_normalization(humidity)
+    # pressure_n = pressure_normalization(pressure)
+    # clouds_n = clouds_normalization(clouds)
 
     weighting_vector, cut = get_weighting(month)
 
@@ -105,17 +123,29 @@ def get_weather_table(lat, lon):
     w = requests.get(forecast_url)
 
     forecast_message = json.loads(w.content)
-    rrp_table = forecast_message['payload']['mos']['location']
+    #rrp_table = forecast_message['payload']['mos']['location']
+    rrp_table = forecast_message['payload']['location']
 
     def add_weather(val):
         return {'datetime': val['datetime'],
-                'rrp': val['rrp'],
-                'temperature': val['tt'],
-                'sun': val.get('ss', 0),
+                'temp_max': val['tx'],
+                'temp_min': val['tn'],
                 'wind': val['ff'],
+                'wind_direction': val['dd'],
+                'rain_rate': val['rr'],
+                'symbol': val['sy'],
                 'humidity': val['rh'],
-                'pressure': val['qff'],
+                'thunder_prob': val['th'],
                 'clouds': val['n']}
+
+# return {'datetime': val['datetime'],
+#                 'rrp': val['rrp'],
+#                 'temperature': val['tt'],
+#                 'sun': val.get('ss', 0),
+#                 'wind': val['ff'],
+#                 'humidity': val['rh'],
+#                 'pressure': val['qff'],
+#                 'clouds': val['n']}
 
     items = map(add_weather, rrp_table)
 
@@ -123,16 +153,28 @@ def get_weather_table(lat, lon):
 
 
 def get_weather_item_list(x):
-    t = x['temperature']
-    p = x['rrp']
-    s = x['sun']
-    u = x['wind']
-    h = x['humidity']
-    ap = x['pressure']
-    d = x['datetime']
-    n = x['clouds']
 
-    return t, p, s, u, h, ap, n, d
+    tx = x['temp_max']
+    tn = x['temp_min']
+    w = x['wind']
+    wd = x['wind_direction']
+    r = x['rain_rate']
+    h = x['humidity']
+    th = x['thunder_prob']
+    c = x['clouds']
+
+    return tx, tn, w, wd, r, h, th, c
+
+    # t = x['temperature']
+    # p = x['rrp']
+    # s = x['sun']
+    # u = x['wind']
+    # h = x['humidity']
+    # ap = x['pressure']
+    # d = x['datetime']
+    # n = x['clouds']
+    #
+    # return t, p, s, u, h, ap, n, d
 
 
 def temperature_normalization(temperature):

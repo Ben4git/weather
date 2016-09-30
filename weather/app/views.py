@@ -1,6 +1,8 @@
 import json
 import requests
 import numpy as np
+import datetime
+from datetime import timedelta
 
 from flask import Flask, jsonify, render_template, request, redirect, url_for, send_from_directory
 from app import app
@@ -74,11 +76,14 @@ def weather_prediction(lat, lon):
     # month = [i.split('-', 1)[0] for i in month]
     # time = [i.split(' ', 1)[1] for i in datetime]
 
-    #print month, time
+    now = datetime.datetime.now()
+    month = now.month
+    tomorrow = datetime.now()+timedelta(days=1)
+    print month, tomorrow
 
     temp_max_n = temperature_normalization(temp_max)
     temp_min_n = temperature_normalization(temp_min)
-    wind_n = wind_normalization(wind)
+    wind_n = wind_normalization(wind_direction)
     rain_rate_n = rain_rate_normailzation(rain_rate)
     humidity_n = humidity_normalization(humidity)
     thunder_prob_n = thunder_prob_normalization(thunder_prob)
@@ -98,7 +103,8 @@ def weather_prediction(lat, lon):
     theme_world_list = []
 
     for i in range(len(temperature)):
-        weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
+        #weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
+        weather_array = np.array((temp_max_n[i], temp_min_n[i], wind_n[i], rain_rate_n[i], humidity_n[i], thunder_prob_n[i], clouds_n[i]))
         theme_world = np.dot(a, weather_array)
         theme_world_list.insert(i, theme_world)
 
@@ -238,6 +244,24 @@ def clouds_normalization(clouds):
 
     return clouds_n
 
+def thunder_prob_normalization(thunder_prob):
+    thunder_prob_n = []
+
+    for i in range(len(thunder_prob)):
+        th_norm = ((thunder_prob[i]) / 100.0)
+        thunder_prob_n.insert(i, th_norm)
+
+    return thunder_prob_n
+
+def rain_rate_normalization(rain_rate):
+    rain_rate_n = []
+
+    for i in range(len(rain_rate)):
+        rr_norm = ((rain_rate[i]) / 1.4)
+        rain_rate_n.insert(i, rr_norm)
+
+    return rain_rate_n
+
 
 def get_prediction(x, y):
     mean = np.mean(x, axis=0)
@@ -255,42 +279,79 @@ def get_weighting(x):
     weight = []
     cut = 0
 
-    if x[0] == '01':
+    if x == 1:
         weight = [-0.00909824, 0.00943982, -0.00684809, 0.00660464, 0.01447286, -0.01459643]
         cut = 0.00298387
-    if x[0] == '02':
+    if x == 2:
         weight = [-0.01282424, 0.00894633, -0.00570136, -0.00373348, 0.01624247, -0.01323499]
         cut = 0.00258065
-    if x[0] == '03':
+    if x == 3:
         weight = [-0.00803732, 0.00893287, -0.0066863, -0.00242146, 0.0140223, -0.01454846]
         cut = -0.000241935
-    if x[0] == '04':
+    if x == 4:
         weight = [-0.00898446, 0.00829643, -0.0066594, 0.00530684, 0.01627399, -0.01421073]
         cut = 0.00104839
-    if x[0] == '05':
+    if x == 5:
         weight = [-0.00995442, 0.00882052, -0.00599414, 0.00488401, 0.0164064, -0.01297599]
         cut = 0.00104839
-    if x[0] == '06':
+    if x == 6:
         weight = [-0.00967134, 0.00813585, -0.00546412, -0.00564167, 0.0153748, -0.01391193]
         cut = -0.00122984
-    if x[0] == '07':
+    if x == 7:
         weight = [-0.00988417, 0.00858781, -0.00583501, -0.00745723, 0.0165972, -0.01388873]
         cut = -0.00077621
-    if x[0] == '08':
+    if x == 8:
         weight = [-0.00942567, 0.00923738, -0.00645289, 0.00360788, 0.01589958, -0.01411208]
         cut = 0.000403226
-    if x[0] == '09':
+    if x == 9:
         weight = [-0.00912792, 0.00831796, -0.00602797, -0.00635364, 0.01566218, -0.01444709]
         cut = 0.00016129
-    if x[0] == '10':
+    if x == 10:
         weight = [-0.00781921, 0.00851862, -0.00575595, 0.00289248, 0.01664236, -0.01430174]
         cut = 0.00372379
-    if x[0] == '11':
+    if x == 11:
         weight = [-0.01152125, 0.00911835, -0.00631822, 0.00247476, 0.01666723, -0.01424621]
         cut = 0.00240927
-    if x[0] == '12':
+    if x == 12:
         weight = [-0.00726646, 0.00869168, -0.00713663, -0.0075033, 0.01841887, -0.01386321]
         cut = 0.00560484
+    #
+    # if x[0] == '01':
+    #     weight = [-0.00909824, 0.00943982, -0.00684809, 0.00660464, 0.01447286, -0.01459643]
+    #     cut = 0.00298387
+    # if x[0] == '02':
+    #     weight = [-0.01282424, 0.00894633, -0.00570136, -0.00373348, 0.01624247, -0.01323499]
+    #     cut = 0.00258065
+    # if x[0] == '03':
+    #     weight = [-0.00803732, 0.00893287, -0.0066863, -0.00242146, 0.0140223, -0.01454846]
+    #     cut = -0.000241935
+    # if x[0] == '04':
+    #     weight = [-0.00898446, 0.00829643, -0.0066594, 0.00530684, 0.01627399, -0.01421073]
+    #     cut = 0.00104839
+    # if x[0] == '05':
+    #     weight = [-0.00995442, 0.00882052, -0.00599414, 0.00488401, 0.0164064, -0.01297599]
+    #     cut = 0.00104839
+    # if x[0] == '06':
+    #     weight = [-0.00967134, 0.00813585, -0.00546412, -0.00564167, 0.0153748, -0.01391193]
+    #     cut = -0.00122984
+    # if x[0] == '07':
+    #     weight = [-0.00988417, 0.00858781, -0.00583501, -0.00745723, 0.0165972, -0.01388873]
+    #     cut = -0.00077621
+    # if x[0] == '08':
+    #     weight = [-0.00942567, 0.00923738, -0.00645289, 0.00360788, 0.01589958, -0.01411208]
+    #     cut = 0.000403226
+    # if x[0] == '09':
+    #     weight = [-0.00912792, 0.00831796, -0.00602797, -0.00635364, 0.01566218, -0.01444709]
+    #     cut = 0.00016129
+    # if x[0] == '10':
+    #     weight = [-0.00781921, 0.00851862, -0.00575595, 0.00289248, 0.01664236, -0.01430174]
+    #     cut = 0.00372379
+    # if x[0] == '11':
+    #     weight = [-0.01152125, 0.00911835, -0.00631822, 0.00247476, 0.01666723, -0.01424621]
+    #     cut = 0.00240927
+    # if x[0] == '12':
+    #     weight = [-0.00726646, 0.00869168, -0.00713663, -0.0075033, 0.01841887, -0.01386321]
+    #     cut = 0.00560484
 
     return weight, cut
 

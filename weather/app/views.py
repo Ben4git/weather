@@ -7,8 +7,9 @@ from app import app
 from app.weather_terms import generate_weather_terms, SUMMER_MUST_HAVE, MOVIE_TIME
 from geopy.geocoders import Nominatim
 
-FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A4776940F94&service=prod2data&action=iterativ_forecasts&lat={}&lon={}&start=now&end=+10%20hours&format=jsonarray'
+#FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A4776940F94&service=prod2data&action=iterativ_forecasts&lat={}&lon={}&start=now&end=+10%20hours&format=jsonarray'
 ELASTIC_BASE = 'http://www-explorer.pthor.ch/elastic/all_products_spryker_read/_search?q={}&size=20'
+FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A4776940F94&service=prod2data&action=iterativ_forecasts_termin&lat={}&lon={}&format=json'
 
 
 @app.route('/')
@@ -98,9 +99,15 @@ def weather_prediction(lat, lon):
     theme_world_list = []
 
     for i in range(len(temperature)):
-        weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
+        weather_array = np.array((temp_max_n[i], temp_min_n, wind_n[i], rain_rate_n[i], humidity_n[i],
+                                  thunder_prob_n[i], clouds_n[i]))
         theme_world = np.dot(a, weather_array)
         theme_world_list.insert(i, theme_world)
+
+ # for i in range(len(temperature)):
+ #        weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
+ #        theme_world = np.dot(a, weather_array)
+ #        theme_world_list.insert(i, theme_world)
 
     weather = get_prediction(theme_world_list, cut)
 
@@ -186,54 +193,73 @@ def temperature_normalization(temperature):
     return temp_n
 
 
-def rain_normalization(rain):
+def rain_rate_normalization(x):
+    rain_rate_n = []
+    for i in range(len(x)):
+        t_norm = ((x[i] + 40.0) / 80.0)  # highest measured temperature in switzerland goes from -40 to +40
+        temp_n.insert(i, t_norm)
+
+    return rain_rate_n
+
+
+def rain_normalization(x):
     rain_n = []
-    for i in range(len(rain)):
-        r_norm = ((rain[i]) / 100.0)  # rain probability goes from 0 to 100%
+    for i in range(len(x)):
+        r_norm = ((x[i]) / 100.0)  # rain probability goes from 0 to 100%
         rain_n.insert(i, r_norm)
 
     return rain_n
 
 
-def sun_normalization(sun):
+def sun_normalization(x):
     sun_n = []
-    for i in range(len(sun)):
-        s_norm = (sun[i] / 60.0)  # sun duration goes from 0 min to 60 min per hour
+    for i in range(len(x)):
+        s_norm = (x[i] / 60.0)  # sun duration goes from 0 min to 60 min per hour
         sun_n.insert(i, s_norm)
 
     return sun_n
 
 
-def wind_normalization(wind):
+def wind_normalization(x):
     wind_n = []
-    for i in range(len(wind)):
-        w_norm = (wind[i] / 118.0)  # velocity goes from 0 - 118 km/h, at 118 km/h it is classified as an "Orkan"
+    for i in range(len(x)):
+        w_norm = (x[i] / 118.0)  # velocity goes from 0 - 118 km/h, at 118 km/h it is classified as an "Orkan"
         wind_n.insert(i, w_norm)
 
     return wind_n
 
 
-def humidity_normalization(humidity):
+def humidity_normalization(x):
     humidity_n = []
-    for i in range(len(humidity)):
-        h_norm = (humidity[i] / 100.0)
+    for i in range(len(x)):
+        h_norm = (x[i] / 100.0)
         humidity_n.insert(i, h_norm)
 
     return humidity_n
 
 
-def pressure_normalization(pressure):
+def pressure_normalization(x):
     pressure_n = []
-    for i in range(len(pressure)):
-        ap_norm = ((pressure[i] - 970) / 70)
+    for i in range(len(x)):
+        ap_norm = ((x[i] - 970) / 70)
         pressure_n.insert(i, ap_norm)
 
     return pressure_n
 
-def clouds_normalization(clouds):
+
+def thunder_probability_normalization(x):
+    thunder_probability_n = []
+    for i in range(len(x)):
+        thunder_probability_norm = ((x[i]) / 100.0)  
+        thunder_probability_n.insert(i, thunder_probability_norm)
+
+    return rain_rate_n
+
+
+def clouds_normalization(x):
     clouds_n = []
-    for i in range(len(clouds)):
-        n_norm = ((clouds[i]) / 8)
+    for i in range(len(x)):
+        n_norm = ((x[i]) / 8)
         clouds_n.insert(i, n_norm)
 
     return clouds_n

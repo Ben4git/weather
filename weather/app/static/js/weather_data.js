@@ -2,7 +2,7 @@ var getLocationData = geoFindMe(function (latitude, longitude) {
     //console.log("this is the callback", latitude, longitude);
     getGeoData(latitude, longitude);
     getWeather(latitude, longitude)
-    //predictWeather(latitude, longitude)
+    predictWeather(latitude, longitude)
 });
 
 var loca = {

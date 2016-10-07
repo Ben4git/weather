@@ -48,7 +48,7 @@ def weather_table(lat, lon):
 @app.route('/weatherPrediction/<lat>/<lon>/', methods=['GET', 'POST'])
 def weather_prediction(lat, lon):
     w = get_weather_table(lat, lon)
-
+    print w
     # now = date.month
     month = 10
     # tomorrow = datetime.now() + timedelta(days=1)
@@ -95,16 +95,16 @@ def get_weather_table(lat, lon):
     items_AM = {}
     items_PM = {}
     for key, val in rrp_table[1].iteritems():
-        # if key == 'V':
-        #     items_AM.update({'temp_max': val['TX'],
-        #                      'temp_min': val['TN'],
-        #                      'wind': val['FF'],
-        #                      'wind_direction': val['DD'],
-        #                      'rain_rate': val['RR'],
-        #                      'symbol': val['SY'],
-        #                      'humidity': val['RH'],
-        #                      'thunder_prob': val['TH'],
-        #                      'clouds': val['N']})
+        if key == 'V':
+            items_AM.update({'temp_max': val['TX'],
+                             'temp_min': val['TN'],
+                             'wind': val['FF'],
+                             'wind_direction': val['DD'],
+                             'rain_rate': val['RR'],
+                             'symbol': val['SY'],
+                             'humidity': val['RH'],
+                             'thunder_prob': val['TH'],
+                             'clouds': val['N']})
         if key == 'N':
             items_PM.update({'temp_max': val['TX'],
                              'temp_min': val['TN'],
@@ -116,7 +116,57 @@ def get_weather_table(lat, lon):
                              'thunder_prob': val['TH'],
                              'clouds': val['N']})
 
-    return items_PM
+    main_items = get_main_items(items_AM, items_PM)
+    #main_items = items_PM
+    print main_items
+    return main_items
+
+def get_main_items(x,y):
+    z = {}
+
+    if x['temp_max'] >= y['temp_max']:
+        z.update({'temp_max': x['temp_max']})
+    else:
+        z.update({'temp_max': y['temp_max']})
+
+    if x['temp_min'] >= y['temp_min']:
+        z.update({'temp_min': x['temp_min']})
+    else:
+        z.update({'temp_min': y['temp_min']})
+
+    if x['wind'] >= y['wind']:
+        z.update({'wind': x['wind']})
+    else:
+        z.update({'wind': y['wind']})
+
+    if x['rain_rate'] >= y['rain_rate']:
+        z.update({'rain_rate': x['rain_rate']})
+    else:
+        z.update({'rain_rate': y['rain_rate']})
+
+    if x['symbol'] >= y['symbol']:
+        z.update({'symbol': x['symbol']})
+    else:
+        z.update({'symbol': y['symbol']})
+
+    if x['humidity'] >= y['humidity']:
+        z.update({'humidity': x['humidity']})
+    else:
+        z.update({'humidity': y['humidity']})
+
+    if x['thunder_prob'] >= y['thunder_prob']:
+        z.update({'thunder_prob': x['thunder_prob']})
+    else:
+        z.update({'thunder_prob': y['thunder_prob']})
+
+    if x['clouds'] >= y['clouds']:
+        z.update({'clouds': x['clouds']})
+    else:
+        z.update({'clouds': y['clouds']})
+
+    print z
+    return z
+
 
 
 def temperature_normalization(temperature):

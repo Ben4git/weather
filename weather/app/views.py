@@ -133,7 +133,8 @@ def get_main_items(x, y, v):
     temp_min = minimum(x['temp_min'], y['temp_min'], v['temp_min'])
     z.update({'temp_min': temp_min})
 
-    wind = maximum(x['wind'], y['wind'], v['wind'])
+    wind_list = np.array([x['wind'], y['wind'], v['wind']])
+    wind = format(wind_list.mean(), '.1f')
     z.update({'wind': wind})
 
     rain_rate = x['rain_rate'] + y['rain_rate'] + v['rain_rate']
@@ -142,7 +143,8 @@ def get_main_items(x, y, v):
     symbol = maximum(x['symbol'], y['symbol'], v['symbol'])
     z.update({'symbol': symbol})
 
-    humidity = maximum(x['humidity'], y['humidity'], v['humidity'])
+    humidity_list = np.array([x['humidity'], y['humidity'], v['humidity']])
+    humidity = format(humidity_list.mean(), '.2f')
     z.update({'humidity': humidity})
 
     thunder_prob = maximum(x['thunder_prob'], y['thunder_prob'], v['thunder_prob'])

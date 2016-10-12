@@ -26,13 +26,14 @@
                 <div id="weather-table" class="weather-table">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <div class=""><img
-                                src="/static/weather_icons_flat/{{ items.symbol }}.png" alt="" class="src weather-table__icon">{{ items.temp_max }}˚C</div>
+                                src="/static/weather_icons_flat/{{ items.symbol }}.png" alt="" class="src weather-table__icon"></div>
+                        {{ items.temp_max }} <p text-transform="uppercase">˚C</p>
                     </div>
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <div>
-                            <p> Rain Rate: {{ items.rain_rate }} mm <br>
-                             aver. Humidity: {{ items.humidity }} % <br>
-                             aver. Wind: {{ items.wind }} km/h </p>
+                            <> Rain Rate: {{ items.rain_rate }} mm <br>
+                             Humidity: {{ items.humidity }} % <br>
+                            <p> Wind: {{ items.wind }} km/h </p>
                         </div>
                     </div>
                 </div>

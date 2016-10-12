@@ -1,38 +1,15 @@
 /* Weather List */
 
 * {
- box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 img {
     max-width: 100%;
     height: auto;
 }
-
-.weather-list {
-
+.bold {
+    font-weight: bold;
 }
 
-.weather-list__col {
-    border-right: solid 1px gray;
-    border-bottom: solid 1px gray;
-    overflow: hidden;
-    height: 120px;
-}
-
-.weather-list__link {
-    display: block;
-    text-align: center;
-    padding: 6px;
-}
-.weather-table__icon {
-    height:auto;
-    max-width:100%;
-    font-size: 30%;
-}
-.weather-table {
-    height:auto;
-    max-width:100%;
-    font-size: 70%;
-}
 

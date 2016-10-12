@@ -1,0 +1,23 @@
+.c-weather-table {
+    padding: 0 10px;
+    background-color: #45d4e1;
+}
+
+.c-weather-table__info {
+    font-size: 10px;
+}
+
+.c-weather-table__info-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+}
+
+.c-weather-table__info-list li {
+    padding-left: 10px;
+    display: inline-block;
+}
+.c-weather-table__icon {
+    max-width: 30px;
+}

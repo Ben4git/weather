@@ -4,7 +4,7 @@ import numpy as np
 import datetime
 from datetime import timedelta
 
-from flask import Flask, jsonify, render_template, request, redirect, url_for, send_from_directory
+from flask import jsonify, render_template
 from app import app
 from app.weather_terms import generate_weather_terms, SUMMER_MUST_HAVE, MOVIE_TIME
 from geopy.geocoders import Nominatim
@@ -17,7 +17,7 @@ FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A47769
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', title='Weather search')
+    return render_template('indexII.html', title='Weather search')
 
 
 @app.route('/geoLoca/<lat>/<lon>/', methods=['GET', 'POST'])
@@ -47,7 +47,6 @@ def weather_table(lat, lon):
 @app.route('/weatherPrediction/<lat>/<lon>/', methods=['GET', 'POST'])
 def weather_prediction(lat, lon):
     w = get_weather_table(lat, lon)
-
     tomorrow = datetime.datetime.now() + timedelta(days=1)
     month = tomorrow.month
 
@@ -69,8 +68,8 @@ def weather_prediction(lat, lon):
     theme_world = np.dot(a, weather_array)
 
     weather = get_prediction(theme_world, cut)
-
-    products_info = products_generation(weather)
+    symbol = get_symbol_description(w['symbol'])
+    products_info = products_generation(weather, symbol)
 
     products_table = jsonify(products_info)
     products_table.headers.add('Access-Control-Allow-Origin', '*')
@@ -91,7 +90,7 @@ def get_weather_table(lat, lon):
     items_am = {}
     items_pm = {}
     items_ppm = {}
-    for key, val in rrp_table[1].iteritems():
+    for key, val in rrp_table[0].iteritems():
         if key == 'V':
             items_am.update({'temp_max': val['TX'],
                              'temp_min': val['TN'],
@@ -134,7 +133,7 @@ def get_main_items(x, y, v):
     z.update({'temp_min': temp_min})
 
     wind_list = np.array([x['wind'], y['wind'], v['wind']])
-    wind = format(wind_list.mean(), '.1f')
+    wind = int(wind_list.mean() + 0.5)
     z.update({'wind': wind})
 
     rain_rate = x['rain_rate'] + y['rain_rate'] + v['rain_rate']
@@ -144,13 +143,14 @@ def get_main_items(x, y, v):
     z.update({'symbol': symbol})
 
     humidity_list = np.array([x['humidity'], y['humidity'], v['humidity']])
-    humidity = format(humidity_list.mean(), '.2f')
+    humidity = int(humidity_list.mean() + 0.5)
     z.update({'humidity': humidity})
 
     thunder_prob = maximum(x['thunder_prob'], y['thunder_prob'], v['thunder_prob'])
     z.update({'thunder_prob': thunder_prob})
 
-    clouds = maximum(x['clouds'], y['clouds'], v['clouds'])
+    clouds_list = np.array([x['clouds'], y['clouds'], v['clouds']])
+    clouds = int(clouds_list.mean() + 0.5)
     z.update({'clouds': clouds})
     return z
 
@@ -295,9 +295,42 @@ def get_weighting(x):
     #     cut = 0.00560484
     #
     # return weight, cut
+def get_symbol_description(x):
+    symbol = {}
+    if x == 1:
+        symbol.update({'description': 'sonnig'})
+    if x == 2:
+        symbol.update({'description': 'meist sonnig'})
+    if x == 3:
+        symbol.update({'description': 'bewoelkt'})
+    if x == 4:
+        symbol.update({'description': 'stark bewoelkt'})
+    if x == 5:
+        symbol.update({'description': 'Waermegewitter'})
+    if x == 6:
+        symbol.update({'description': 'starker Regen'})
+    if x == 7:
+        symbol.update({'description': 'Schneefall'})
+    if x == 8:
+        symbol.update({'description': 'Nebel'})
+    if x == 9:
+        symbol.update({'description': 'Schneeregen'})
+    if x == 10:
+        symbol.update({'description': 'Regenschauer'})
+    if x == 11:
+        symbol.update({'description': 'leichter Regen'})
+    if x == 12:
+        symbol.update({'description': 'Schneeschauer'})
+    if x == 13:
+        symbol.update({'description': 'Frontgewitter'})
+    if x == 14:
+        symbol.update({'description': 'Hochnebel'})
+    if x == 15:
+        symbol.update({'description': 'Schneeregenschauer'})
+    return symbol
 
 
-def products_generation(x):
+def products_generation(x,y):
     def extract_product_info(hit):
         try:
             image = hit['_source']['images']['lowres'][0]
@@ -306,7 +339,8 @@ def products_generation(x):
 
         return {'name': hit['_source']['de_CH']['name'],
                 'image': image,
-                'url': hit['_source']['de_CH']['url']}
+                'url': hit['_source']['de_CH']['url'],
+                'description': y['description']}
 
     weather_terms = generate_weather_terms(x)
 

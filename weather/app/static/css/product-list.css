@@ -1,0 +1,7 @@
+.c-product-list__item {
+    height: auto;
+    max-width: 100%;
+    font-size: 30%;
+    padding: 20px;
+    display: block;
+}

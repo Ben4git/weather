@@ -1,0 +1,42 @@
+.c-landing-page {
+    padding: 0px;
+}
+
+.c-landing-page__title {
+    background-color: #f1f5f7;
+}
+
+.c-landing-page__info {
+    font-size: 16px;
+    text-align: center;
+}
+
+.c-landing-page__text {
+    font-size: 16px;
+    font-family: 'Mate';
+    text-align: center;
+}
+
+.c-landing-page__info-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: #5e5e5e;
+    font-size: 14px;
+    font-family: 'Roboto';
+}
+
+.c-landing-page__info-list li {
+    padding-left: 10px;
+    display: inline-block;
+}
+.c-landing-page__icon {
+    max-width: 30px;
+}
+.c-landing-page__header {
+    margin-top: 25px;
+    text-align: center;
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 32px;
+}

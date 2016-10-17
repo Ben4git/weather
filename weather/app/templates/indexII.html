@@ -11,7 +11,8 @@
 
     <link href="/static/css/weather-table.css" rel="stylesheet">
     <link href="/static/css/product-list.css" rel="stylesheet">
-
+    <link href="/static/css/landing-page.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Mate:400,400i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
 
 </head>
 <body>
@@ -150,26 +151,6 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
-        </div>
-        <div class="c-weather-table">
-
-            <div class="row">
-
-                <div class="col-xs-12">
-                    <div class="c-weather-table__info">
-                        <ul class="c-weather-table__info-list" id="weather-table">
-                            <li class="bold">Wetter morgen:</li>
-                            <li><img class="c-weather-table__icon"
-                                     src="/static/weather_icons_flat/{{ items.symbol }}.png" alt=""/>
-                                {{ items.temp_max }}˚C
-                            </li>
-                            <li>Niederschlag: {{ items.rain_rate }} mm</li>
-                            <li>rel. Luftfeuchtigkeit: {{ items.humidity }} %</li>
-                            <li>Wind: {{ items.wind }} km/h</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="o-page__navigation">
@@ -2413,15 +2394,37 @@
             </div>
         </div>
 
+<div class="c-landing-page">
+    <div class="c-landing-page__title col-xs-12 col-sm-12 col-md-12" id="weather-table">
 
-        <div class="col-xs-12 col-sm-12 col-md-12" id="prediction">
-            <h1> Morgen wird es {{ items[0].description }}! </h1>
-            <div class="col-xs-6 col-sm-3 col-md-2 c-product-list" v-for="item in items">
-                <a class="c-product-list__item" target="_blank" href="http://www.siroop.ch/{{ item.url }}"><img
-                        src="{{ item.image }}" alt="" class="src"></a>
+        <div class="col-xs-12">
+            <div class="c-landing-page__header">
+                Wetten, dass Du das hier morgen brauchst!
+                <ul class="c-landing-page__info-list">
+                    <li><img class="c-landing-page__icon" src="/static/weather_icons_flat/{{ items.symbol }}.png" alt=""/>
+                        {{ items.temp_max }}˚C </li>
+                    <li>Niederschlag: {{ items.rain_rate }} mm</li>
+                    <li>rel. Luftfeuchtigkeit: {{ items.humidity }} %</li>
+                    <li>Wind: {{ items.wind }} km/h </li>
+                </ul>
             </div>
         </div>
+        <div class="c-landing-page__text"> <p>Es gibt Tage, da möchte man am Liebsten zu Hause bleiben <br>
+            und es gibt Tage, da hält einen nichts in den eigenen 4 Wänden.<br>
+            Egal, welches Wetter, wir haben das Richtige für Dich!</p></div>
+    </div>
 </div>
+    <div class="col-xs-12 col-sm-12 col-md-12" id="prediction">
+        <div class="col-xs-2 col-sm-3 col-md-3 col-lg-3 c-product-list" v-for="item in items">
+            <a class="c-product-list__item" target="_blank" href="http://www.siroop.ch/{{ item.url }}">
+                <img src="{{ item.image }}" alt="" class="c-product-list__image"/>
+                <div class="c-product-list__title">{{ item.name }}</div>
+            </a>
+        </div>
+    </div>
+    </div>
+
+
 
 <script type="text/javascript" src="/static/js/vue.js"></script>
 <script type="text/javascript" src="/static/js/jquery.js"></script>

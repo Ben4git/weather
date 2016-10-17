@@ -1,3 +1,4 @@
+# coding=utf8
 import json
 import requests
 import numpy as np
@@ -66,11 +67,8 @@ def weather_prediction(lat, lon):
                               thunder_prob_n, clouds_n))
     # weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
     theme_world = np.dot(a, weather_array)
-
     weather = get_prediction(theme_world, cut)
-    symbol = get_symbol_description(w['symbol'])
-    products_info = products_generation(weather, symbol)
-
+    products_info = products_generation(weather)
     products_table = jsonify(products_info)
     products_table.headers.add('Access-Control-Allow-Origin', '*')
     return products_table
@@ -119,7 +117,12 @@ def get_weather_table(lat, lon):
                               'thunder_prob': val['TH'],
                               'clouds': val['N']})
 
+
+
     main_items = get_main_items(items_am, items_pm, items_ppm)
+    w = get_symbol_description(main_items['symbol'])
+    main_items.update({'description': w['description']})
+    print main_items
     return main_items
 
 
@@ -139,7 +142,8 @@ def get_main_items(x, y, v):
     rain_rate = x['rain_rate'] + y['rain_rate'] + v['rain_rate']
     z.update({'rain_rate': rain_rate})
 
-    symbol = maximum(x['symbol'], y['symbol'], v['symbol'])
+    symbol_list = np.array([x['symbol'], y['symbol'], v['symbol']])
+    symbol = int(symbol_list.mean() + 0.5)
     z.update({'symbol': symbol})
 
     humidity_list = np.array([x['humidity'], y['humidity'], v['humidity']])
@@ -152,6 +156,7 @@ def get_main_items(x, y, v):
     clouds_list = np.array([x['clouds'], y['clouds'], v['clouds']])
     clouds = int(clouds_list.mean() + 0.5)
     z.update({'clouds': clouds})
+
     return z
 
 
@@ -220,41 +225,41 @@ def get_weighting(x):
     cut = 0
 
     if x == 1:
-        weight = [-0.00382586, -0.00393746, 0.01642025, 0.01486812, 0.00067475, 0.00816414, 0.02697238]
-        cut = 0.0180544
+        weight = [-0.00335513, -0.00359237, 0.01732439, 0.01079877, 0.00059825, 0.00711425, 0.01937825]
+        cut = 0.0116935
     if x == 2:
-        weight = [-0.00670504, -0.00607809, 0.01811662, 0.01676428, 0.00068154, 0.00797337, 0.02836731]
-        cut = 0.0140927
+        weight = [-0.00530129, -0.0026943, 0.01525563, 0.00970345, 0.00059218, 0.00655433, 0.02047455]
+        cut = 0.00967742
     if x == 3:
-        weight = [-0.01540678, -0.00560556, 0.01492506, 0.00911104, 0.0006391, 0.00486679, 0.02658187]
-        cut = 0.00495968
+        weight = [-0.01590454, -0.00534317, 0.01659892, 0.00880971, 0.00058768, 0.00581285, 0.01955624]
+        cut = 0.00016129
     if x == 4:
-        weight = [-0.00912813, -0.00685701, 0.01483072, 0.01232059, 0.00062824, 0.00816203, 0.02681441]
-        cut = 0.0107762
+        weight = [-0.00942814, -0.00478461, 0.01845482, 0.01110916, 0.00064272, 0.00703559, 0.01944698]
+        cut = 0.0058871
     if x == 5:
-        weight = [-0.01107693, -0.00930273, 0.00781883, 0.01228519, 0.00064858, 0.00565221, 0.02554234]
-        cut = 0.00523185
+        weight = [-0.01165691, -0.00955254, 0.01597078, 0.01190846, 0.00061923, 0.00552247, 0.02154132]
+        cut = 0.00185484
     if x == 6:
-        weight = [-0.01209097, -0.01066439, 0.01337936, 0.01159317, 0.00074469, 0.00629606, 0.02954978]
-        cut = 0.00504032
+        weight = [-0.0134208, -0.01214072, 0.01703924, 0.01386619, 0.00061871, 0.00660583, 0.02127785]
+        cut = 0.00137097
     if x == 7:
-        weight = [-0.01077415, -0.00736007, 0.01555851, 0.01222838, 0.00071556, 0.00577852, 0.02675358]
-        cut = 0.00697581
+        weight = [-0.00975982, -0.01123043, 0.01413246, 0.01315478, 0.00061742, 0.00641805, 0.02138029]
+        cut = 0.00185484
     if x == 8:
-        weight = [-0.00960805, -0.00957767, 0.01580726, 0.01168713, 0.00068414, 0.00605758, 0.02491569]
-        cut = 0.00622984
+        weight = [-0.0115865, -0.00925401, 0.013127, 0.01252089, 0.00059309, 0.00533109, 0.02085148]
+        cut = 0.000887097
     if x == 9:
-        weight = [-0.01081972, -0.00625248, 0.01550218, 0.00951834, 0.00073142, 0.0065168, 0.02742618]
-        cut = 0.00859879
+        weight = [-0.01041435, -0.00758956, 0.01237047, 0.00833742, 0.00054605, 0.0062977, 0.01953063]
+        cut = 0.000967742
     if x == 10:
-        weight = [-0.01046757, -0.0081211, 0.01410185, 0.01148382, 0.0006921, 0.00669379, 0.02556196]
-        cut = 0.00905242
+        weight = [-0.01033804, -0.00841469, 0.01507056, 0.0114441, 0.0006528, 0.00755849, 0.02146566]
+        cut = 0.00459677
     if x == 11:
-        weight = [-0.01264252, -0.00652497, 0.01316371, 0.01072454, 0.00064546, 0.00708285, 0.02793529]
-        cut = 0.00796371
+        weight = [-0.01141499 -0.00611244, 0.01409918, 0.01213419, 0.00065773, 0.00737693, 0.02384542]
+        cut = 0.00678427
     if x == 12:
-        weight = [-0.00762027, -0.00306047, 0.01080757, 0.01092766, 0.0006615, 0.00605315, 0.02827403]
-        cut = 0.0140726
+        weight = [-0.00705209, -0.0054105, 0.0117761, 0.01033537, 0.00060414, 0.00748263, 0.0212954]
+        cut = 0.00904234
     return weight, cut
 
     #if x == 1:
@@ -298,39 +303,39 @@ def get_weighting(x):
 def get_symbol_description(x):
     symbol = {}
     if x == 1:
-        symbol.update({'description': 'sonnig'})
+        symbol.update({'description': 'sonnig sein'})
     if x == 2:
-        symbol.update({'description': 'meist sonnig'})
+        symbol.update({'description': 'meist sonnig sein'})
     if x == 3:
-        symbol.update({'description': 'bewoelkt'})
+        symbol.update({'description': 'bewölkt sein'})
     if x == 4:
-        symbol.update({'description': 'stark bewoelkt'})
+        symbol.update({'description': 'stark bewölkt sein'})
     if x == 5:
-        symbol.update({'description': 'Waermegewitter'})
+        symbol.update({'description': 'Wärmegewitter geben'})
     if x == 6:
-        symbol.update({'description': 'starker Regen'})
+        symbol.update({'description': 'starken Regen geben'})
     if x == 7:
-        symbol.update({'description': 'Schneefall'})
+        symbol.update({'description': 'Schneefall geben'})
     if x == 8:
-        symbol.update({'description': 'Nebel'})
+        symbol.update({'description': 'nebelig sein'})
     if x == 9:
-        symbol.update({'description': 'Schneeregen'})
+        symbol.update({'description': 'Schneeregen geben'})
     if x == 10:
-        symbol.update({'description': 'Regenschauer'})
+        symbol.update({'description': 'Regenschauer geben'})
     if x == 11:
-        symbol.update({'description': 'leichter Regen'})
+        symbol.update({'description': 'leichten Regen geben'})
     if x == 12:
-        symbol.update({'description': 'Schneeschauer'})
+        symbol.update({'description': 'Schneeschauer geben'})
     if x == 13:
-        symbol.update({'description': 'Frontgewitter'})
+        symbol.update({'description': 'Frontgewitter geben'})
     if x == 14:
-        symbol.update({'description': 'Hochnebel'})
+        symbol.update({'description': 'Hochnebel geben'})
     if x == 15:
-        symbol.update({'description': 'Schneeregenschauer'})
+        symbol.update({'description': 'Schneeregenschauer geben'})
     return symbol
 
 
-def products_generation(x,y):
+def products_generation(x):
     def extract_product_info(hit):
         try:
             image = hit['_source']['images']['lowres'][0]
@@ -339,11 +344,9 @@ def products_generation(x,y):
 
         return {'name': hit['_source']['de_CH']['name'],
                 'image': image,
-                'url': hit['_source']['de_CH']['url'],
-                'description': y['description']}
+                'url': hit['_source']['de_CH']['url']}
 
     weather_terms = generate_weather_terms(x)
-
     products_table = search_products(weather_terms)
     products_info = map(extract_product_info, products_table)
     return products_info
@@ -351,7 +354,6 @@ def products_generation(x,y):
 
 def search_products(search_terms):
     search_query = '+OR+'.join(search_terms)
-
     search_url = generate_elastic_url(search_query)
     search_result = requests.get(search_url)
     result_dict = json.loads(search_result.content)

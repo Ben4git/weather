@@ -18,7 +18,7 @@ FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A47769
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('indexII.html', title='Weather search')
+    return render_template('index_landing.html', title='Weather search')
 
 
 @app.route('/geoLoca/<lat>/<lon>/', methods=['GET', 'POST'])

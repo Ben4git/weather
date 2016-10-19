@@ -2507,21 +2507,20 @@ document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.17.3
         </div>
     </div>
 
-    <div class="u-margin-top-xlarge obj-wrapper obj-wrapper--medium o-container">
-        <div class="o-product-list o-product-list--light" data-t-name="ProductList"
-        ">
-        <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s">
+    <div class="u-margin-top-xlarge obj-wrapper obj-wrapper--medium o-container" id="prediction">
+        <div class="o-product-list o-product-list--light" data-t-name="ProductList">
+        <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s" v-for="item in items">
 
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ item.url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/20d3fb81ba1bddebe2fb16f529c20b33.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ item.image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Amorana
+                        {{ item.name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 244.00
+                        CHF {{ item.price }}0
                     </div>
                 </div>
             </a></div>

@@ -122,7 +122,6 @@ def get_weather_table(lat, lon):
     main_items = get_main_items(items_am, items_pm, items_ppm)
     w = get_symbol_description(main_items['symbol'])
     main_items.update({'description': w['description']})
-    print main_items
     return main_items
 
 
@@ -156,7 +155,6 @@ def get_main_items(x, y, v):
     clouds_list = np.array([x['clouds'], y['clouds'], v['clouds']])
     clouds = int(clouds_list.mean() + 0.5)
     z.update({'clouds': clouds})
-
     return z
 
 
@@ -300,6 +298,8 @@ def get_weighting(x):
     #     cut = 0.00560484
     #
     # return weight, cut
+
+
 def get_symbol_description(x):
     symbol = {}
     if x == 1:
@@ -344,7 +344,9 @@ def products_generation(x):
 
         return {'name': hit['_source']['de_CH']['name'],
                 'image': image,
-                'url': hit['_source']['de_CH']['url']}
+                'url': hit['_source']['de_CH']['url'],
+                'price': ((hit['_source']['min_price'])/100.0),
+                'merchant': hit['_source']['merchants']}
 
     weather_terms = generate_weather_terms(x)
     products_table = search_products(weather_terms)

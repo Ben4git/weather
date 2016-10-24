@@ -2509,161 +2509,161 @@ document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.17.3
 
     <div class="u-margin-top-xlarge obj-wrapper obj-wrapper--medium o-container" id="prediction">
         <div class="o-product-list o-product-list--light" data-t-name="ProductList">
-        <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s" v-for="item in items">
+        <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s">
 
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ item.url }}"
+            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[0].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ item.image }}"
+                                                          src="{{ items[0].image }}"
                                                           alt="">
                     <div class="o-product-list__item-title">
-                        {{ item.name }}
+                        {{ items[0].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF {{ item.price }}0
+                        CHF {{ items[0].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[1].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e7ebbabcc2eff1a4531359d1cb0c3ccb.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[1].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Intersport
+                        {{ items[1].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 350.00
+                        CHF {{ items[1].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[2].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/2d5ff7d1be6c85be95e3ff2697fb3136.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[2].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Fust
+                        {{ items[2].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 550.00
+                        CHF {{ items[2].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[3].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e508ea9f95cfdb424de81e319aaa0f04.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[3].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Franz Carl Weber
+                        {{ items[3].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 670.00
+                        CHF {{ items[3].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[4].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/20d3fb81ba1bddebe2fb16f529c20b33.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[4].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Amorana
+                        {{ items[4].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 244.00
+                        CHF {{ items[4].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[5].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e7ebbabcc2eff1a4531359d1cb0c3ccb.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[5].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Intersport
+                        {{ items[5].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 350.00
+                        CHF {{ items[5].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[6].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/2d5ff7d1be6c85be95e3ff2697fb3136.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[6].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Fust
+                        {{ items[6].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 550.00
+                        CHF {{ items[6].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[7].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e508ea9f95cfdb424de81e319aaa0f04.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[7].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Franz Carl Weber
+                        {{ items[7].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 670.00
+                        CHF {{ items[7].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[8].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/20d3fb81ba1bddebe2fb16f529c20b33.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[8].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Amorana
+                        {{ items[8].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 244.00
+                        CHF {{ items[8].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[9].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e7ebbabcc2eff1a4531359d1cb0c3ccb.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[9].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Intersport
+                        {{ items[9].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 350.00
+                        CHF {{ items[9].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[10].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/2d5ff7d1be6c85be95e3ff2697fb3136.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[10].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Fust
+                        {{ items[10].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 550.00
+                        CHF {{ items[10].price }}
                     </div>
                 </div>
             </a></div>
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="#"
+             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[11].url }}"
                                                                                    class="o-product-list__item-link">
                 <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="https://cdn.siroop.ch/media/images/sized/e508ea9f95cfdb424de81e319aaa0f04.200x200.jpg"
-                                                          alt="Poemotion 1">
+                                                          src="{{ items[11].image }}"
+                                                          alt="">
                     <div class="o-product-list__item-title">
-                        Franz Carl Weber
+                        {{ items[11].name }}
                     </div>
                     <div class="o-product-list__item-price">
-                        CHF 670.00
+                        CHF {{ items[11].price }}
                     </div>
                 </div>
             </a></div>

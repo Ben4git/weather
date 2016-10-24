@@ -3,8 +3,8 @@ function geoFindMe(cb) {
     navigator.geolocation.getCurrentPosition(success, error);
 
     if (!navigator.geolocation) {
-        output.innerHTML = "<p>Geolocation is not supported by your browser</p>";
-        return;
+        output.innerHTML = "<p>Geolocation is not supported</p>";
+        return {lat: 47.381723400000006, lon: 8.531773399999999};
     }
 
 
@@ -16,7 +16,7 @@ function geoFindMe(cb) {
 
     function error() {
         output.innerHTML = "Unable to retrieve your location";
-        return {lat: 1, lon: 1}
+        return {lat: 47.381723400000006, lon: 8.531773399999999}
     };
 
     //output.innerHTML = "<p>Locating…</p>";

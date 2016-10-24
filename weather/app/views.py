@@ -345,7 +345,7 @@ def products_generation(x):
         return {'name': hit['_source']['de_CH']['name'],
                 'image': image,
                 'url': hit['_source']['de_CH']['url'],
-                'price': ((hit['_source']['min_price'])/100.0),
+                'price': ((hit['_source']['min_price'])),
                 'merchant': hit['_source']['merchants']}
 
     weather_terms = generate_weather_terms(x)

@@ -10,6 +10,7 @@ function geoFindMe(cb) {
 
     function success(position) {
         // fire the call back!
+        //console.log(position.coords.latitude, position.coords.longitude);
         cb(position.coords.latitude, position.coords.longitude);
     };
 

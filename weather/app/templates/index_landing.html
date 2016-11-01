@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/geoFindMeII.js"></script>
+    <script type="text/javascript" src="/static/js/weather_data.js"></script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,10 +16,31 @@
     <link rel="icon" href="/assets/img/icon/favicon.ico">
     <link rel="apple-touch-icon" href="/assets/img/icon/favicon-32x32.png"/>
 
-    <title></title>
+    <link rel="apple-touch-icon" sizes="57x57" href="http://siroop.ch/images/favicon/apple-touch-icon-57x57.png?v=4">
+    <link rel="apple-touch-icon" sizes="60x60" href="http://siroop.ch/images/favicon/apple-touch-icon-60x60.png?v=4">
+    <link rel="apple-touch-icon" sizes="72x72" href="http://siroop.ch/images/favicon/apple-touch-icon-72x72.png?v=4">
+    <link rel="apple-touch-icon" sizes="76x76" href="http://siroop.ch/images/favicon/apple-touch-icon-76x76.png?v=4">
+    <link rel="apple-touch-icon" sizes="114x114"
+          href="http://siroop.ch/images/favicon/apple-touch-icon-114x114.png?v=4">
+    <link rel="apple-touch-icon" sizes="120x120"
+          href="http://siroop.ch/images/favicon/apple-touch-icon-120x120.png?v=4">
+    <link rel="apple-touch-icon" sizes="144x144"
+          href="http://siroop.ch/images/favicon/apple-touch-icon-144x144.png?v=4">
+    <link rel="apple-touch-icon" sizes="152x152"
+          href="http://siroop.ch/images/favicon/apple-touch-icon-152x152.png?v=4">
+    <link rel="apple-touch-icon" sizes="180x180"
+          href="http://siroop.ch/images/favicon/apple-touch-icon-180x180.png?v=4">
+    <link rel="icon" type="image/png" href="http://siroop.ch/images/favicon/favicon-32x32.png?v=4" sizes="32x32">
+    <link rel="icon" type="image/png" href="http://siroop.ch/images/favicon/favicon-96x96.png?v=4" sizes="96x96">
+    <link rel="icon" type="image/png" href="http://siroop.ch/images/favicon/favicon-16x16.png?v=4" sizes="16x16">
+    <link rel="manifest" href="http://siroop.ch/images/favicon/manifest.json?v=4">
+    <link rel="mask-icon" href="http://siroop.ch/images/favicon/safari-pinned-tab.svg?v=4" color="#5bbad5">
 
-    <link rel="stylesheet" href="//siroop.ch/css/main.css?v=1860705abb24"/>
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" href="http://siroop.ch/css/main.css?v=1860705abb24"/>
     <link href="static/css/main.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
     <script>
@@ -26,11 +53,16 @@
             }
         });
     </script>
+    <script>
+        new Vue({
+            el: 'html',
+            data: {
+                title: 'siroop weather'
+            }
+        })
+    </script>
 </head>
 <body>
-<script id="__bs_script__">//<![CDATA[
-document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.17.3'><\/script>".replace("HOST", location.hostname));
-//]]></script>
 
 <svg xmlns="http://www.w3.org/2000/svg">
     <symbol id="account" viewBox="0 0 1024 1024">
@@ -2483,7 +2515,7 @@ document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.17.3
                             <h2 class="o-banner__lead o-banner__lead">
                                 <ul class="c-landing-page__info-list">
                                     <li><img class="c-landing-page__icon"
-                                             src="/static/weather_icons_flat/{{ items.symbol }}.png"
+                                              v-bind:src="url"
                                              alt=""/>
                                         {{ items.temp_max }}˚C
                                     </li>
@@ -2509,178 +2541,30 @@ document.write("<script async src='/browser-sync/browser-sync-client.js?v=2.17.3
 
     <div class="u-margin-top-xlarge obj-wrapper obj-wrapper--medium o-container" id="prediction">
         <div class="o-product-list o-product-list--light" data-t-name="ProductList">
-        <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s">
+            <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s">
 
-            <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[0].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[0].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[0].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[0].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[1].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[1].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[1].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[1].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[2].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[2].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[2].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[2].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[3].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[3].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[3].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[3].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[4].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[4].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[4].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[4].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[5].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[5].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[5].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[5].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[6].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[6].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[6].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[6].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[7].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[7].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[7].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[7].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[8].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[8].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[8].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[8].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[9].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[9].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[9].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[9].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[10].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[10].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[10].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[10].price }}
-                    </div>
-                </div>
-            </a></div>
-             <div class="o-product-list__item obj-layout__col obj-swipe@s__item"><a href="http://www.siroop.ch/{{ items[11].url }}"
-                                                                                   class="o-product-list__item-link">
-                <div class="o-product-list__content"><img class="o-product-list__item-image"
-                                                          src="{{ items[11].image }}"
-                                                          alt="">
-                    <div class="o-product-list__item-title">
-                        {{ items[11].name }}
-                    </div>
-                    <div class="o-product-list__item-price">
-                        CHF {{ items[11].price }}
-                    </div>
-                </div>
-            </a></div>
-        </ul>
+                <div class="o-product-list__item obj-layout__col obj-swipe@s__item" v-for="item in items">
+                    <a href="http://www.siroop.ch/{{ items.url }}"
+                       class="o-product-list__item-link">
+                        <div class="o-product-list__content"><img class="o-product-list__item-image"
+                                                                   v-bind:src="item.image"
+                                                                  alt="">
+                            <div class="o-product-list__item-title">
+                                {{ item.name }}
+                            </div>
+                            <div class="o-product-list__item-price">
+                                CHF {{ item.price }}
+                            </div>
+                        </div>
+                    </a></div>
+
+            </ul>
+        </div>
     </div>
-</div>
 </div>
 <div class="o-footer">
 
 </div>
-
-<script src="/js/vendor.js"></script>
-<script src="/js/default.js"></script>
-<script type="text/javascript" src="/static/js/vue.js"></script>
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/geoFindMeII.js"></script>
-<script type="text/javascript" src="/static/js/weather_data.js"></script>
 
 </body>
 </html>

@@ -63,8 +63,7 @@ def weather_prediction(lat, lon):
 
     a = np.array(weighting_vector)
 
-    weather_array = np.array((temp_max_n, temp_min_n, wind_n, rain_rate_n, humidity_n,
-                              thunder_prob_n, clouds_n))
+    weather_array = np.array((temp_max_n, temp_min_n, wind_n, rain_rate_n, humidity_n, thunder_prob_n, clouds_n))
     # weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
     theme_world = np.dot(a, weather_array)
     weather = get_prediction(theme_world, cut)
@@ -141,8 +140,9 @@ def get_main_items(x, y, v):
     rain_rate = x['rain_rate'] + y['rain_rate'] + v['rain_rate']
     z.update({'rain_rate': rain_rate})
 
-    symbol_list = np.array([x['symbol'], y['symbol'], v['symbol']])
-    symbol = int(symbol_list.mean() + 0.5)
+    #symbol_list = np.array([x['symbol'], y['symbol'], v['symbol']])
+    #symbol = int(symbol_list.mean() + 0.5)
+    symbol = day_maximum(y['symbol'], v['symbol'])
     z.update({'symbol': symbol})
 
     humidity_list = np.array([x['humidity'], y['humidity'], v['humidity']])
@@ -166,6 +166,13 @@ def maximum(a, b, c):
         max_val = c
         if b > c:
             max_val = b
+    return max_val
+
+
+def day_maximum(a, b):
+    max_val = a
+    if b > max_val:
+        max_val = b
     return max_val
 
 
@@ -253,11 +260,12 @@ def get_weighting(x):
         weight = [-0.01033804, -0.00841469, 0.01507056, 0.0114441, 0.0006528, 0.00755849, 0.02146566]
         cut = 0.00459677
     if x == 11:
-        weight = [-0.01141499 -0.00611244, 0.01409918, 0.01213419, 0.00065773, 0.00737693, 0.02384542]
+        weight = [-0.01141499, -0.00611244, 0.01409918, 0.01213419, 0.00065773, 0.00737693, 0.02384542]
         cut = 0.00678427
     if x == 12:
         weight = [-0.00705209, -0.0054105, 0.0117761, 0.01033537, 0.00060414, 0.00748263, 0.0212954]
         cut = 0.00904234
+
     return weight, cut
 
     #if x == 1:

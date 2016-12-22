@@ -1613,7 +1613,7 @@ img[height] {
     .o-product-list__item-link:hover {
       color: #333333; }
   .o-product-list__list {
-    overflow: hidden;
+    overflow: auto;
     margin-top: 0; }
   .o-product-list__item {
     text-align: center;

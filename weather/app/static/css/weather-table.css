@@ -21,3 +21,6 @@
 .c-weather-table__icon {
     max-width: 30px;
 }
+.c-weather-table__list {
+    overflow: auto;
+}

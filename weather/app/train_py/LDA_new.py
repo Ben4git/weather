@@ -28,7 +28,7 @@ def main():
     #calculate weights which maximize linear separation
     w=np.dot(np.linalg.inv(Sw), (mean2-mean1))
    
-    print "vector of max weights", w
+    print("vector of max weights", w)
     #projection of classes on 1D space
     plt.plot(np.dot(class1, w), [0]*class1.shape[0], "bo", label="good")
     plt.plot(np.dot(class2, w), [0]*class2.shape[0], "go", label="bad")

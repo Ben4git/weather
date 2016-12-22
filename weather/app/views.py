@@ -3,11 +3,12 @@ import json
 import requests
 import numpy as np
 import datetime
+from random import randint
 from datetime import timedelta
 
 from flask import jsonify, render_template
 from app import app
-from app.weather_terms import generate_weather_terms, SUMMER_MUST_HAVE, MOVIE_TIME
+from app.weather_terms import generate_weather_terms, GOOD_WEATHER, BAD_WEATHER
 from geopy.geocoders import Nominatim
 
 # FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A4776940F94&service=prod2data&action=iterativ_forecasts&lat={}&lon={}&start=now&end=+10%20hours&format=jsonarray'
@@ -18,7 +19,8 @@ FORECAST_BASE = 'https://mdx.meteotest.ch/api_v1?key=0F9D9B3DBE6716943C6D9A47769
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index_landing.html', title='Weather search')
+    number = randint(0, 100000)
+    return render_template('index.html', title='Weather search', number=number)
 
 
 @app.route('/geoLoca/<lat>/<lon>/', methods=['GET', 'POST'])
@@ -32,14 +34,18 @@ def html_position(lat, lon):
     location = location.split(',')
     address = [location[1] + " " + location[0], location[6]]
     address_table = {'lat': lat_s, 'lon': lon_s, 'location': address}
-    response = jsonify(address_table)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    print('address: ', address_table)
+    res = jsonify(address_table)
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 
 @app.route('/weatherReport/<lat>/<lon>/', methods=['GET', 'POST'])
 def weather_table(lat, lon):
     weather_items = get_weather_table(lat, lon)
+    weather = weather_calculation(weather_items)
+    weather_items.update({'weather' : weather})
+    print(weather_items)
     weather_json = jsonify(weather_items)
     weather_json.headers.add('Access-Control-Allow-Origin', '*')
     return weather_json
@@ -48,7 +54,19 @@ def weather_table(lat, lon):
 @app.route('/weatherPrediction/<lat>/<lon>/', methods=['GET', 'POST'])
 def weather_prediction(lat, lon):
     w = get_weather_table(lat, lon)
-    tomorrow = datetime.datetime.now() + timedelta(days=1)
+    weather = weather_calculation(w)
+
+    print(weather)
+    products_info = products_generation(weather)
+    products_table = jsonify(products_info)
+
+    products_table.headers.add('Access-Control-Allow-Origin', '*')
+    return products_table
+
+
+def weather_calculation(w):
+    #tomorrow = datetime.datetime.now() + timedelta(days=1)
+    tomorrow = datetime.datetime.now()
     month = tomorrow.month
 
     temp_max_n = temperature_normalization(w['temp_max'])
@@ -67,10 +85,7 @@ def weather_prediction(lat, lon):
     # weather_array = np.array((temp_n[i], rain_n[i], sun_n[i], wind_n[i], humidity_n[i], pressure_n[i]))
     theme_world = np.dot(a, weather_array)
     weather = get_prediction(theme_world, cut)
-    products_info = products_generation(weather)
-    products_table = jsonify(products_info)
-    products_table.headers.add('Access-Control-Allow-Origin', '*')
-    return products_table
+    return weather
 
 
 def get_weather_table(lat, lon):
@@ -80,14 +95,14 @@ def get_weather_table(lat, lon):
     forecast_url = generate_forecast_url(lat_s, lon_s)
     w = requests.get(forecast_url)
 
-    forecast_message = json.loads(w.content)
+    forecast_message = json.loads(w.content.decode('utf-8'))
     # rrp_table = forecast_message['payload']['mos']['location']
     rrp_table = forecast_message['payload']['prognose']['location']
 
     items_am = {}
     items_pm = {}
     items_ppm = {}
-    for key, val in rrp_table[0].iteritems():
+    for key, val in rrp_table[0].items():
         if key == 'V':
             items_am.update({'temp_max': val['TX'],
                              'temp_min': val['TN'],
@@ -219,9 +234,9 @@ def rain_rate_normalization(rain_rate):
 
 def get_prediction(x, y):
     if x > y:
-        weatherPredict = MOVIE_TIME
+        weatherPredict = BAD_WEATHER
     else:
-        weatherPredict = SUMMER_MUST_HAVE
+        weatherPredict = GOOD_WEATHER
     return weatherPredict
 
 
@@ -263,8 +278,8 @@ def get_weighting(x):
         weight = [-0.01141499, -0.00611244, 0.01409918, 0.01213419, 0.00065773, 0.00737693, 0.02384542]
         cut = 0.00678427
     if x == 12:
-        weight = [-0.00705209, -0.0054105, 0.0117761, 0.01033537, 0.00060414, 0.00748263, 0.0212954]
-        cut = 0.00904234
+        weight = [-0.00585927, -0.00411371, 0.01651454, 0.00948798, 0.00058204, 0.00264156, 0.02038646]
+        cut = 0.00727823
 
     return weight, cut
 
@@ -358,7 +373,7 @@ def products_generation(x):
 
     weather_terms = generate_weather_terms(x)
     products_table = search_products(weather_terms)
-    products_info = map(extract_product_info, products_table)
+    products_info = list(map(extract_product_info, products_table))
     return products_info
 
 
@@ -366,7 +381,7 @@ def search_products(search_terms):
     search_query = '+OR+'.join(search_terms)
     search_url = generate_elastic_url(search_query)
     search_result = requests.get(search_url)
-    result_dict = json.loads(search_result.content)
+    result_dict = json.loads(search_result.content.decode('utf-8'))
     search_table = result_dict['hits']['hits']
     return search_table
 

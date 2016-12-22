@@ -1,62 +1,101 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+{% include 'siroop_head.html' %}
 
-<head>
-    <title> - Wetterfrosch search - </title>
-    <meta name="viewport" content="width=device-width">
-
-    <link href="/static/css/flatui/dist/css/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/flatui/dist/css/flat-ui.min.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
-
-</head>
 <body>
+{% include 'siroop_symbols.html' %}
+{% include 'siroop_header.html' %}
 
-<div class="myApp">
+<div class="t-trade" data-c-name="Landing Page Trade">
+    <div class="t-trade__breadcrumb-wrap ">
+        <div class="t-trade__breadcrumb o-container">
+            <div class="m-breadcrumb m-breadcrumb--light">
+                <nav>
+                    <ul class="c-breadcrumb list-unstyled">
+                        <li class="c-breadcrumb__item">
+                            <a href=http://google.com title=Startseite class="c-link">Startseite</a>
+                        </li>
+                        <li class="c-breadcrumb__item">
+                            <a href=http://siroop.ch title=Landing Page class="c-link">Landing Page</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="obj-wrapper obj-wrapper--large t-trade__banner-wrap ">
+        <div class="t-trade__banner o-container">
+            <div class="o-banner">
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-5 col-md-5 tile">
-            <img class="logo" src="/static/Siroop_logo.png" width="100px" align="leftt"/> The Siroop Wetterfrosch!
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div id="geo">
-                    <div id="out"></div>
-                    <br>
-                    <span class="glyphicon glyphicon-home"></span>{{ items.location }}
-                </div>
-                <br>
-                <div id="weather-table" class="weather-table">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class=""><img
-                                src="/static/weather_icons_flat/{{ items.symbol }}.png" alt="" class="src weather-table__icon"></div>
-                        {{ items.temp_max }} <p text-transform="uppercase">˚C</p>
+                <div class="o-banner__content ">
+                    <div class="o-banner__content-wrap" id="weather-table">
+                        <figure class="o-banner__background o-banner__wrapper">
+                            <picture>
+                                <source media="(min-width: 36em)" srcset="/static/{{ items.weather }}.jpg">
+                                <source srcset="/static/{{ items.weather }}.jpg">
+                                <img class="o-banner__img" src="/static/{{ items.weather }}.jpg">
+                            </picture>
+                        </figure>
+                        <div class="o-banner__title-wrap o-banner__title-wrap--light">
+                            <h1 class="o-banner__title o-banner__title">Wetten, dass Du das hier morgen brauchst!</h1>
+                            <h2 class="o-banner__lead o-banner__lead">
+                                <ul class="c-landing-page__info-list">
+                                    <li><img class="c-landing-page__icon"
+                                              v-bind:src="url"
+                                             alt=""/>
+                                        {{ items.temp_max }}˚C
+                                    </li>
+                                    <li>Niederschlag: {{ items.rain_rate }} mm</li>
+                                    <li>rel. Luftfeuchtigkeit: {{ items.humidity }} %</li>
+                                    <li>Wind: {{ items.wind }} km/h</li>
+                                </ul>
+                            </h2>
+                        </div>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div>
-                            <> Rain Rate: {{ items.rain_rate }} mm <br>
-                             Humidity: {{ items.humidity }} % <br>
-                            <p> Wind: {{ items.wind }} km/h </p>
+                    <div class="o-banner__text o-container">
+                        <div class="u-1/1 o-banner__text-wrap">
+                            <p>Es gibt Tage, da möchte man am Liebsten zu Hause bleiben
+                                und es gibt Tage, da hält einen nichts in den eigenen 4 Wänden.
+                                Egal welches Wetter, wir haben das Richtige für Dich!</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="col-xs-12 col-sm-7 col-md-7" id="prediction">
-            <div class="col-xs-4 col-sm-3 col-md-3 weather-list__col" v-for="item in items">
-                <a class="weather-list__link" target="_blank" href="http://www.siroop.ch/{{ item.url }}"><img
-                        src="{{ item.image }}" alt="" class="src"></a>
             </div>
         </div>
+    </div>
+    <div class="u-margin-top-xlarge obj-wrapper obj-wrapper--medium o-container" id="prediction">
+        <div class="o-product-list o-product-list--light" data-t-name="ProductList">
+            <ul class="o-product-list__list obj-layout-6-3-3-3 obj-swipe@s c-weather-table__list">
 
+                <div class="o-product-list__item obj-layout__col obj-swipe@s__item" v-for="item in items">
+                    <a href="http://www.siroop.ch/{{ items.url }}"
+                       class="o-product-list__item-link">
+                        <div class="o-product-list__content"><img class="o-product-list__item-image"
+                                                                   v-bind:src="item.image"
+                                                                  alt="">
+                            <div class="o-product-list__item-title">
+                                {{ item.name }}
+                            </div>
+                            <div class="o-product-list__item-price">
+                                CHF {{ item.price }}
+                            </div>
+                        </div>
+                    </a></div>
 
+            </ul>
+        </div>
     </div>
 </div>
+<div class="o-footer">
+
 </div>
 
-<script type="text/javascript" src="/static/js/vue.js"></script>
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/geoFindMe.js"></script>
-<script type="text/javascript" src="/static/js/weather_data.js"></script>
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/geoFindMeII.js?v[[number]]"></script>
+    <script type="text/javascript" src="/static/js/weather_data.js"></script>
+
 
 </body>
-
 </html>

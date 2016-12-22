@@ -10,7 +10,7 @@ for i in range(0, 1000):
     ff = ((gauss(7, 3.5))/118.0)
     rr = ((gauss(1.6, 1))/10.0)
     sy = random.randint(0, 3)
-    humidity = ((gauss(75.0, 10))/100.0)
+    humidity = ((gauss(85.0, 10))/100.0)
     thunder = ((gauss(5, 5))/100.0)
     clouds = (gauss(3, 2)/8)           
     condition = 'good'
@@ -19,7 +19,7 @@ for i in range(0, 1000):
 
 for i in range(0, 1000):
     temp_max = ((gauss(2, 5)+40.0)/80.0)
-    temp_min = ((gauss(-2, 5)+40.0)/80.0)
+    temp_min = ((gauss(-4, 5)+40.0)/80.0)
     ff = ((gauss(10, 3.5))/118.0)
     rr = ((gauss(3.6, 1))/10.0)
     sy = random.randint(4, 15)
